@@ -37,16 +37,26 @@ bool HelloWorld::init()
 	this->addChild(mAnimNode);
 	mAnimNode->PlaySection("mixed");
 	
+	// add a menu item to next sample
+	CCMenuItemFont* aNextSampleMenuItem = CCMenuItemFont::create("Next", this, menu_selector(HelloWorld::menuCallback));
+	aNextSampleMenuItem->setAnchorPoint(CCPointMake(1.0f, 0.0f));
+	aNextSampleMenuItem->setPosition(CCPointMake(aScreenSize.width, 0.0f));
+	CCMenu* aMenu = CCMenu::createWithItem(aNextSampleMenuItem);
+	this->addChild(aMenu);
+	aMenu->setPosition(CCPointZero);
+	
+	// add a title
+	CCLabelTTF* aTitle = CCLabelTTF::create("basic animation", "", 18);
+	aTitle->setAnchorPoint(CCPointMake(0.5f, 1.0f));
+	aTitle->setPosition(CCPointMake(aScreenSize.width * 0.5f, aScreenSize.height));
+	this->addChild(aTitle);
+	
     return true;
 }
 
-void HelloWorld::menuCloseCallback(CCObject* pSender)
+void HelloWorld::menuCallback(CCObject* pSender)
 {
-    CCDirector::sharedDirector()->end();
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
 }
 
 void HelloWorld::OnAnimSectionEnd(int theId, std::string theLabelName){
