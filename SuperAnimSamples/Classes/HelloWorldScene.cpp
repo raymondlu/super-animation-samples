@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "MoreScene.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -31,6 +32,10 @@ bool HelloWorld::init()
 
 	CCSize aScreenSize = CCDirector::sharedDirector()->getWinSize();
 	
+	// background
+	CCLayerColor* aBackground = CCLayerColor::create(ccc4(128, 128, 128, 255), aScreenSize.width, aScreenSize.height);
+	this->addChild(aBackground);
+	
 	std::string anAnimFileFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("basic_transform.sam");
     mAnimNode = SuperAnim::SuperAnimNode::create(anAnimFileFullPath, 0, this);
 	mAnimNode->setPosition(CCPointMake(aScreenSize.width * 0.5f, aScreenSize.height * 0.5f));
@@ -38,7 +43,7 @@ bool HelloWorld::init()
 	mAnimNode->PlaySection("mixed");
 	
 	// add a menu item to next sample
-	CCMenuItemFont* aNextSampleMenuItem = CCMenuItemFont::create("Next", this, menu_selector(HelloWorld::menuCallback));
+	CCMenuItemFont* aNextSampleMenuItem = CCMenuItemFont::create("Next Scene", this, menu_selector(HelloWorld::menuCallback));
 	aNextSampleMenuItem->setAnchorPoint(CCPointMake(1.0f, 0.0f));
 	aNextSampleMenuItem->setPosition(CCPointMake(aScreenSize.width, 0.0f));
 	CCMenu* aMenu = CCMenu::createWithItem(aNextSampleMenuItem);
@@ -46,7 +51,7 @@ bool HelloWorld::init()
 	aMenu->setPosition(CCPointZero);
 	
 	// add a title
-	CCLabelTTF* aTitle = CCLabelTTF::create("basic animation", "", 18);
+	CCLabelTTF* aTitle = CCLabelTTF::create("basic animation", "", 16);
 	aTitle->setAnchorPoint(CCPointMake(0.5f, 1.0f));
 	aTitle->setPosition(CCPointMake(aScreenSize.width * 0.5f, aScreenSize.height));
 	this->addChild(aTitle);
@@ -56,7 +61,7 @@ bool HelloWorld::init()
 
 void HelloWorld::menuCallback(CCObject* pSender)
 {
-
+	CCDirector::sharedDirector()->replaceScene(MoreSample::scene());
 }
 
 void HelloWorld::OnAnimSectionEnd(int theId, std::string theLabelName){
