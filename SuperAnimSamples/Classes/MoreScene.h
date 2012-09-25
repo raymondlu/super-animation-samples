@@ -2,9 +2,6 @@
 //  MoreScene.h
 //  SuperAnimSamples
 //
-//  Created by 敬慧 卢 on 9/19/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
 
 #ifndef SuperAnimSamples_MoreScene_h
 #define SuperAnimSamples_MoreScene_h

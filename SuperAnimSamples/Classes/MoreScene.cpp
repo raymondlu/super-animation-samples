@@ -2,9 +2,6 @@
 //  MoreScene.cpp
 //  SuperAnimSamples
 //
-//  Created by 敬慧 卢 on 9/19/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
 
 #include "MoreScene.h"
 #include "HelloWorldScene.h"
