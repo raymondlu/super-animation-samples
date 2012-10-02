@@ -583,7 +583,7 @@ namespace SuperAnim {
 			return false;
 		}
 		aFileSize = fread(aFileBuffer, sizeof(unsigned char), aFileSize, aFile);
-		
+		fclose(aFile);
 		BufferReader aBuffer;
 		aBuffer.SetData(aFileBuffer, aFileSize);
 		// free memory
