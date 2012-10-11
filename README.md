@@ -1,5 +1,5 @@
 I create a tool named **Super Animation Converter**,
-which is a simple **SWF** (a file format supported by Adobe Flash Player software) converter.
+which is a simple **SWF** (a file format supported by **Adobe Flash Player** software) converter.
 It can parse and extract transformation data from SWF file. 
 With these transformation data and the right images, 
 you can reproduce the animation in any game engine just as **Adobe Flash Player** can do.
@@ -10,7 +10,7 @@ which means if there are 20 frames in your animation, you need 20 pieces of imag
 and draw these images one by one on the screen to create animation effect. There are two flaws in this solution: 
 
 1. High resource consuming, one frame one image;
- 
+
 2. Hard to make smooth animation, since no interpolation between frames, which means it “jumps” directly from the current frame to the next frame.
 
 
