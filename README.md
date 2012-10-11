@@ -23,6 +23,6 @@ The idea is very simple:
 
 3. Reproduce the animation in Cocos2d game engine with  the transformation data and images.
 
-Please refer to "super_anim_help_english_version_1.pdf".
+Please refer to [super_anim_help_english_version_1.pdf](https://github.com/raymondlu/super-animation-samples/raw/master/super_anim_help_english_version_1.pdf).
 
 ![intro](https://github.com/raymondlu/super-animation-samples/raw/master/intro.png)
