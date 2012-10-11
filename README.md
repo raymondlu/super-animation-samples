@@ -1,8 +1,10 @@
-I create a tool named "Super Animation Converter",
-which is a simple SWF file(a file format supported by Adobe Flash Player software) converter,
+# A New Animation Solution based on SWF for Cocos2d Game Engine
+
+I create a tool named **Super Animation Converter**,
+which is a simple **SWF** file(a file format supported by Adobe Flash Player software) converter,
 It can parse and extract transformation data from SWF file. 
 With these transformation data and the right images, 
-you can reproduce the animation in any game engine just as Adobe Flash Player can do.
+you can reproduce the animation in any game engine just as **Adobe Flash Player** can do.
 
 
 The native animation solution in Cocos2d game engine is “frame by frame” animation, 
