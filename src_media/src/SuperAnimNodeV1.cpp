@@ -118,15 +118,15 @@ void SuperAnimSprite::SetTexture(CCTexture2D *theTexture, CCRect theTextureRect)
 	mTexture = theTexture;
 	
 	// Set Texture coordinates
-	theTextureRect = CC_RECT_POINTS_TO_PIXELS(theTextureRect);
-	float aTextureWidth = (float)mTexture->getPixelsWide();
-	float aTextureHeight = (float)mTexture->getPixelsHigh();
+	CCRect theTexturePixelRect = CC_RECT_POINTS_TO_PIXELS(theTextureRect);
+	float aTexturePixelWidth = (float)mTexture->getContentSize().width * CC_CONTENT_SCALE_FACTOR();
+	float aTexturePixelHeight = (float)mTexture->getContentSize().height * CC_CONTENT_SCALE_FACTOR();
 	
 	float aLeft, aRight, aTop, aBottom;
-	aLeft = theTextureRect.origin.x / aTextureWidth;
-	aRight = (theTextureRect.origin.x + theTextureRect.size.width) / aTextureWidth;
-	aTop = theTextureRect.origin.y / aTextureHeight;
-	aBottom = (theTextureRect.origin.y + theTextureRect.size.height) / aTextureHeight;
+	aLeft = theTexturePixelRect.origin.x / aTexturePixelWidth;
+	aRight = (theTexturePixelRect.origin.x + theTexturePixelRect.size.width) / aTexturePixelWidth;
+	aTop = theTexturePixelRect.origin.y / aTexturePixelHeight;
+	aBottom = (theTexturePixelRect.origin.y + theTexturePixelRect.size.height) / aTexturePixelHeight;
 	
 	mQuad.bl.texCoords.u = aLeft;
 	mQuad.bl.texCoords.v = aBottom;
@@ -143,10 +143,10 @@ void SuperAnimSprite::SetTexture(CCTexture2D *theTexture, CCRect theTextureRect)
 	//float x2 = x1 + theTextureRect.size.width;
 	//float y2 = y1 + theTextureRect.size.height;
 	
-	float x1 = theTextureRect.size.width * -0.5f;
-	float y1 = theTextureRect.size.height * -0.5f;
-	float x2 = theTextureRect.size.width * 0.5f;
-	float y2 = theTextureRect.size.height * 0.5f;
+	float x1 = theTexturePixelRect.size.width * -0.5f;
+	float y1 = theTexturePixelRect.size.height * -0.5f;
+	float x2 = theTexturePixelRect.size.width * 0.5f;
+	float y2 = theTexturePixelRect.size.height * 0.5f;
 	
 	mQuad.bl.vertices = vertex3(x1, y1, 0);
 	mQuad.br.vertices = vertex3(x2, y1, 0);
