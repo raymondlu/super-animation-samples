@@ -430,7 +430,7 @@ void SuperAnimNode::draw()
 	
 	static SuperAnimObjDrawInfo sAnimObjDrawnInfo;
 	static ccColor4B sCurColor;
-	float aPixelToPointScale = 1.0f / CC_CONTENT_SCALE_FACTOR();
+	//float aPixelToPointScale = 1.0f / CC_CONTENT_SCALE_FACTOR();
 	float anAnimContentHeightInPixel = getContentSize().height * CC_CONTENT_SCALE_FACTOR();
 	BeginIterateAnimObjDrawInfo();
 	while (IterateAnimObjDrawInfo(mAnimHandler, sAnimObjDrawnInfo)) {
@@ -448,7 +448,7 @@ void SuperAnimNode::draw()
 		// cocos2d the origin is located at left bottom, but is in left top in flash
 		sAnimObjDrawnInfo.mTransform.mMatrix.m12 = anAnimContentHeightInPixel - sAnimObjDrawnInfo.mTransform.mMatrix.m12;
 		// convert to point
-		sAnimObjDrawnInfo.mTransform.Scale(aPixelToPointScale, aPixelToPointScale);
+		//sAnimObjDrawnInfo.mTransform.Scale(aPixelToPointScale, aPixelToPointScale);
 		
 		sCurColor = ccc4(sAnimObjDrawnInfo.mColor.mRed, sAnimObjDrawnInfo.mColor.mGreen, sAnimObjDrawnInfo.mColor.mBlue, sAnimObjDrawnInfo.mColor.mAlpha);
 		
