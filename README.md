@@ -26,7 +26,8 @@ The idea is very simple:
 Please refer to [super_anim_help_english_version_1.pdf](https://github.com/raymondlu/super-animation-samples/raw/master/super_anim_help_english_version_1.pdf).
 
 P.S.:
-	I've implemented this idea on **Cocos2D-X** & **Cocos2D for iPhone**.
-	The implementation on **Cocos2D for iPhone** is in "Cocos2D_for_iPhone" folder.
+
+	I've implemented this idea on **"Cocos2D-X"** & **"Cocos2D for iPhone"**.
+	The implementation for **"Cocos2D for iPhone"** is in "Cocos2D_for_iPhone" folder.
 
 ![intro](https://github.com/raymondlu/super-animation-samples/raw/master/intro.png)
