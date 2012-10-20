@@ -455,6 +455,7 @@ enum AnimState
 }
 
 -(void) dealloc{
+	AnimHandlerKeyMgr::GetInstance()->DestroyKey(mAnimHandlerKey);
 	[super dealloc];
 }
 
