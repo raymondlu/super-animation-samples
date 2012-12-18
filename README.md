@@ -32,3 +32,11 @@ I've implemented this idea on **"Cocos2D-X"** & **"Cocos2D for iPhone"**.
 The implementation for **"Cocos2D for iPhone"** is in "Cocos2D_for_iPhone" folder.
 
 ![intro](https://github.com/raymondlu/super-animation-samples/raw/master/intro.png)
+
+Contact Me
+------------------
+   * Forum: [http://www.cocos2d-x.org/boards/6/topics/19621][1]
+   * Blog: [http://raymondlu1983.blog.com/super-animation-converter/][2]
+   
+[1]: http://www.cocos2d-x.org/boards/6/topics/19621 "http://www.cocos2d-x.org/boards/6/topics/19621"
+[2]: http://raymondlu1983.blog.com/super-animation-converter/ "http://raymondlu1983.blog.com/super-animation-converter/"
