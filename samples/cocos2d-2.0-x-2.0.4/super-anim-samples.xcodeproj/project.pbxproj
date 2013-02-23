@@ -203,6 +203,8 @@
 		3CEC7B2116D8D4A000DD97C5 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC7B2016D8D4A000DD97C5 /* AppDelegate.cpp */; };
 		3CEC7B4216D8D71D00DD97C5 /* SuperAnimCore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC7B3F16D8D71D00DD97C5 /* SuperAnimCore.cpp */; };
 		3CEC7B4316D8D71D00DD97C5 /* SuperAnimNodeV2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC7B4016D8D71D00DD97C5 /* SuperAnimNodeV2.cpp */; };
+		3CEC7B4616D8F41500DD97C5 /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC7B4516D8F41500DD97C5 /* common.cpp */; };
+		3CEC7B5216D904C700DD97C5 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC7B5116D904C700DD97C5 /* MainMenu.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -637,6 +639,10 @@
 		3CEC7B3F16D8D71D00DD97C5 /* SuperAnimCore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuperAnimCore.cpp; sourceTree = "<group>"; };
 		3CEC7B4016D8D71D00DD97C5 /* SuperAnimNodeV2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuperAnimNodeV2.cpp; sourceTree = "<group>"; };
 		3CEC7B4116D8D71D00DD97C5 /* SuperAnimNodeV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperAnimNodeV2.h; sourceTree = "<group>"; };
+		3CEC7B4416D8F3FC00DD97C5 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = common.h; path = Classes/common.h; sourceTree = "<group>"; };
+		3CEC7B4516D8F41500DD97C5 /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = common.cpp; path = Classes/common.cpp; sourceTree = "<group>"; };
+		3CEC7B5016D904B500DD97C5 /* MainMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainMenu.h; path = Classes/MainMenu.h; sourceTree = "<group>"; };
+		3CEC7B5116D904C700DD97C5 /* MainMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenu.cpp; path = Classes/MainMenu.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1521,6 +1527,10 @@
 			children = (
 				3CEC7B1F16D8D4A000DD97C5 /* AppDelegate.h */,
 				3CEC7B2016D8D4A000DD97C5 /* AppDelegate.cpp */,
+				3CEC7B4416D8F3FC00DD97C5 /* common.h */,
+				3CEC7B4516D8F41500DD97C5 /* common.cpp */,
+				3CEC7B5016D904B500DD97C5 /* MainMenu.h */,
+				3CEC7B5116D904C700DD97C5 /* MainMenu.cpp */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1783,6 +1793,8 @@
 				3CEC7B2116D8D4A000DD97C5 /* AppDelegate.cpp in Sources */,
 				3CEC7B4216D8D71D00DD97C5 /* SuperAnimCore.cpp in Sources */,
 				3CEC7B4316D8D71D00DD97C5 /* SuperAnimNodeV2.cpp in Sources */,
+				3CEC7B4616D8F41500DD97C5 /* common.cpp in Sources */,
+				3CEC7B5216D904C700DD97C5 /* MainMenu.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
