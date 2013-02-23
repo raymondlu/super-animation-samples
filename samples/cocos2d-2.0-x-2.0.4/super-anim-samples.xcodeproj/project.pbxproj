@@ -205,6 +205,7 @@
 		3CEC7B4316D8D71D00DD97C5 /* SuperAnimNodeV2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC7B4016D8D71D00DD97C5 /* SuperAnimNodeV2.cpp */; };
 		3CEC7B4616D8F41500DD97C5 /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC7B4516D8F41500DD97C5 /* common.cpp */; };
 		3CEC7B5216D904C700DD97C5 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC7B5116D904C700DD97C5 /* MainMenu.cpp */; };
+		3CEC7B5516D923DF00DD97C5 /* BasicAnimScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC7B5416D923DF00DD97C5 /* BasicAnimScene.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -643,6 +644,8 @@
 		3CEC7B4516D8F41500DD97C5 /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = common.cpp; path = Classes/common.cpp; sourceTree = "<group>"; };
 		3CEC7B5016D904B500DD97C5 /* MainMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainMenu.h; path = Classes/MainMenu.h; sourceTree = "<group>"; };
 		3CEC7B5116D904C700DD97C5 /* MainMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenu.cpp; path = Classes/MainMenu.cpp; sourceTree = "<group>"; };
+		3CEC7B5316D923CE00DD97C5 /* BasicAnimScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BasicAnimScene.h; path = Classes/BasicAnimScene.h; sourceTree = "<group>"; };
+		3CEC7B5416D923DF00DD97C5 /* BasicAnimScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BasicAnimScene.cpp; path = Classes/BasicAnimScene.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1531,6 +1534,8 @@
 				3CEC7B4516D8F41500DD97C5 /* common.cpp */,
 				3CEC7B5016D904B500DD97C5 /* MainMenu.h */,
 				3CEC7B5116D904C700DD97C5 /* MainMenu.cpp */,
+				3CEC7B5316D923CE00DD97C5 /* BasicAnimScene.h */,
+				3CEC7B5416D923DF00DD97C5 /* BasicAnimScene.cpp */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1556,6 +1561,7 @@
 				3CEC787A16D8D49A00DD97C5 /* Sources */,
 				3CEC787B16D8D49A00DD97C5 /* Frameworks */,
 				3CEC787C16D8D49A00DD97C5 /* Resources */,
+				3CEC7B5616D9286900DD97C5 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1612,6 +1618,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3CEC7B5616D9286900DD97C5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = ../resource_sync.sh;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3CEC787A16D8D49A00DD97C5 /* Sources */ = {
@@ -1795,6 +1817,7 @@
 				3CEC7B4316D8D71D00DD97C5 /* SuperAnimNodeV2.cpp in Sources */,
 				3CEC7B4616D8F41500DD97C5 /* common.cpp in Sources */,
 				3CEC7B5216D904C700DD97C5 /* MainMenu.cpp in Sources */,
+				3CEC7B5516D923DF00DD97C5 /* BasicAnimScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

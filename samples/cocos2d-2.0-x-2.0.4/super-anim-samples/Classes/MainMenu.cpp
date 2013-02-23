@@ -7,6 +7,7 @@
 //
 
 #include "MainMenu.h"
+#include "BasicAnimScene.h"
 
 CCScene* MainMenuScene::scene(){
 	CCScene* aScene = CCScene::create();
@@ -77,9 +78,15 @@ void MainMenuScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	sTouchBeginPos = aMovedPos;
 }
 void MainMenuScene::onEntry(CCObject* theSender){
+	TestEntry aSelectedEntry = kTestEntryCnt;
 	for (int i = 0; i < kTestEntryCnt; i++) {
 		if (mEntries[i] == theSender) {
 			CCLog("Main menu: entry %d is selected.", i);
+			aSelectedEntry = (TestEntry)i;
+			break;
 		}
+	}
+	if (aSelectedEntry == kTestEntryBasicAnim) {
+		CCDirector::sharedDirector()->replaceScene(BasicAnimScene::scene());
 	}
 }

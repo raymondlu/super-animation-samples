@@ -607,10 +607,10 @@ namespace SuperAnim {
 		
 		SuperAnimMainDef &aMainDef = mMainDefCache[theSuperAnimFile]; 
 		aMainDef.mAnimRate = aBuffer.ReadByte();
-		aMainDef.mX = aBuffer.ReadShort() / TWIPS_PER_PIXEL;
-		aMainDef.mY = aBuffer.ReadShort() / TWIPS_PER_PIXEL;
-		aMainDef.mWidth = aBuffer.ReadShort() / TWIPS_PER_PIXEL;
-		aMainDef.mHeight = aBuffer.ReadShort() / TWIPS_PER_PIXEL;
+		aMainDef.mX = aBuffer.ReadLong() / TWIPS_PER_PIXEL;
+		aMainDef.mY = aBuffer.ReadLong() / TWIPS_PER_PIXEL;
+		aMainDef.mWidth = aBuffer.ReadLong() / TWIPS_PER_PIXEL;
+		aMainDef.mHeight = aBuffer.ReadLong() / TWIPS_PER_PIXEL;
 		
 		int aNumImages = aBuffer.ReadShort();
 		aMainDef.mImageVector.resize(aNumImages);

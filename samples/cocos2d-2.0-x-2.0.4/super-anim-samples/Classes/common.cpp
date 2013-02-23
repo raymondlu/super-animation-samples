@@ -60,31 +60,29 @@ bool HUDLayer::init(){
 	}
 	
 	CCSize aScreenSize = CCDirector::sharedDirector()->getWinSize();
-	float aPadding = 10.0f;
-	
-	mTitle = CCLabelTTF::create("", "Arial", 18);
+	float aPadding = 30.0f;
+	mTitle = CCLabelTTF::create("", "Arial", 24);
 	mTitle->setAnchorPoint(ccp(0.5f, 1.0f));
 	mTitle->setPosition(ccp(aScreenSize.width * 0.5f, aScreenSize.height - aPadding));
 	addChild(mTitle);
 	
+	aPadding = 24;
 	int anOldFontSize = CCMenuItemFont::fontSize();
-	CCMenuItemFont::setFontSize(24);
+	CCMenuItemFont::setFontSize(48);
 	mButtons[kHUDLayerButtonPre] = CCMenuItemFont::create("Pre", this, menu_selector(HUDLayer::onButton));
-	mButtons[kHUDLayerButtonPre]->setAnchorPoint(ccp(0.0f, 0.0f));
-	mButtons[kHUDLayerButtonPre]->setPosition(ccp(aPadding, aPadding));
+	mButtons[kHUDLayerButtonPre]->setPosition(ccp(40, aPadding));
 	
 	mButtons[kHUDLayerButtonNext] = CCMenuItemFont::create("Next", this, menu_selector(HUDLayer::onButton));
-	mButtons[kHUDLayerButtonNext]->setAnchorPoint(ccp(1.0f, 0.0f));
-	mButtons[kHUDLayerButtonPre]->setPosition(ccp(aScreenSize.width - aPadding, aPadding));
+	mButtons[kHUDLayerButtonNext]->setPosition(ccp(aScreenSize.width - 60, aPadding));
 	
 	mButtons[kHUDLayerButtonMainmenu] = CCMenuItemFont::create("Mainmenu", this, menu_selector(HUDLayer::onButton));
-	mButtons[kHUDLayerButtonMainmenu]->setAnchorPoint(ccp(0.5f, 0.0f));
 	mButtons[kHUDLayerButtonMainmenu]->setPosition(ccp(aScreenSize.width * 0.5f, aPadding));
 	
 	CCMenuItemFont::setFontSize(anOldFontSize);
 	
 	CCMenu* aMenu = CCMenu::create(mButtons[kHUDLayerButtonPre], mButtons[kHUDLayerButtonMainmenu], mButtons[kHUDLayerButtonNext], NULL);
 	addChild(aMenu);
+	aMenu->setPosition(CCPointZero);
 	
 	return true;
 }
@@ -92,7 +90,7 @@ bool HUDLayer::init(){
 void HUDLayer::onButton(cocos2d::CCObject *theSender){
 	HUDLayerButton aPressedBtn = kHUDLayerButtonCnt;
 	for (int i = 0; i < kHUDLayerButtonCnt; i++) {
-		if (theSender == mButtons[kHUDLayerButtonPre]) {
+		if (theSender == mButtons[i]) {
 			CCLog("HUD layer: button %d is pressed.", i);
 			aPressedBtn = (HUDLayerButton)i;
 			break;
