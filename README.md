@@ -23,13 +23,8 @@ The idea is very simple:
 
 3. Reproduce the animation in Cocos2D game engine with  the transformation data and images.
 
-Please refer to [super_anim_help_english_version_1.pdf](https://github.com/raymondlu/super-animation-samples/raw/master/super_anim_help_english_version_1.pdf).
+Please refer to [super_anim_help_english_version.pdf](https://github.com/raymondlu/super-animation-samples/raw/master/super_anim_help_english_version.pdf).
 
-P.S.:
-
-I've implemented this idea on **"Cocos2D-X"** & **"Cocos2D for iPhone"**.
-
-The implementation for **"Cocos2D for iPhone"** is in "Cocos2D_for_iPhone" folder.
 
 ![intro](https://github.com/raymondlu/super-animation-samples/raw/master/intro.png)
 
