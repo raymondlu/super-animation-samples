@@ -210,6 +210,7 @@
 		3CED284616D9C1CD00A20917 /* ResizedAnimScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CED284516D9C1CD00A20917 /* ResizedAnimScene.cpp */; };
 		3CED284916D9CE5400A20917 /* SpritesheetAnimScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CED284816D9CE5400A20917 /* SpritesheetAnimScene.cpp */; };
 		3CED284C16D9D5E200A20917 /* TouchedAnimScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CED284B16D9D5E200A20917 /* TouchedAnimScene.cpp */; };
+		3CED285216D9E2F300A20917 /* BugFixScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CED285116D9E2F300A20917 /* BugFixScene.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -658,6 +659,8 @@
 		3CED284816D9CE5400A20917 /* SpritesheetAnimScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpritesheetAnimScene.cpp; path = Classes/SpritesheetAnimScene.cpp; sourceTree = "<group>"; };
 		3CED284A16D9D5D100A20917 /* TouchedAnimScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TouchedAnimScene.h; path = Classes/TouchedAnimScene.h; sourceTree = "<group>"; };
 		3CED284B16D9D5E200A20917 /* TouchedAnimScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TouchedAnimScene.cpp; path = Classes/TouchedAnimScene.cpp; sourceTree = "<group>"; };
+		3CED285016D9E2E600A20917 /* BugFixScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BugFixScene.h; path = Classes/BugFixScene.h; sourceTree = "<group>"; };
+		3CED285116D9E2F300A20917 /* BugFixScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BugFixScene.cpp; path = Classes/BugFixScene.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1556,6 +1559,8 @@
 				3CED284816D9CE5400A20917 /* SpritesheetAnimScene.cpp */,
 				3CED284A16D9D5D100A20917 /* TouchedAnimScene.h */,
 				3CED284B16D9D5E200A20917 /* TouchedAnimScene.cpp */,
+				3CED285016D9E2E600A20917 /* BugFixScene.h */,
+				3CED285116D9E2F300A20917 /* BugFixScene.cpp */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1842,6 +1847,7 @@
 				3CED284616D9C1CD00A20917 /* ResizedAnimScene.cpp in Sources */,
 				3CED284916D9CE5400A20917 /* SpritesheetAnimScene.cpp in Sources */,
 				3CED284C16D9D5E200A20917 /* TouchedAnimScene.cpp in Sources */,
+				3CED285216D9E2F300A20917 /* BugFixScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

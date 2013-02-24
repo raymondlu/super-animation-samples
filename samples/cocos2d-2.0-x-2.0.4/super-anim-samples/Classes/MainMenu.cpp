@@ -12,6 +12,7 @@
 #include "ResizedAnimScene.h"
 #include "SpritesheetAnimScene.h"
 #include "TouchedAnimScene.h"
+#include "BugFixScene.h"
 
 CCScene* MainMenuScene::scene(){
 	CCScene* aScene = CCScene::create();
@@ -104,5 +105,8 @@ void MainMenuScene::onEntry(CCObject* theSender){
 	}
 	if (aSelectedEntry == kTestEntryTouchedAnim) {
 		CCDirector::sharedDirector()->replaceScene(TouchedAnimScene::scene());
+	}
+	if (aSelectedEntry == kTestEntryBugFix) {
+		CCDirector::sharedDirector()->replaceScene(BugFixScene::scene());
 	}
 }
