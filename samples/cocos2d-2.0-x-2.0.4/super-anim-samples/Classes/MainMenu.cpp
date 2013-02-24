@@ -9,6 +9,7 @@
 #include "MainMenu.h"
 #include "BasicAnimScene.h"
 #include "ComplexAnimScene.h"
+#include "ResizedAnimScene.h"
 
 CCScene* MainMenuScene::scene(){
 	CCScene* aScene = CCScene::create();
@@ -92,5 +93,8 @@ void MainMenuScene::onEntry(CCObject* theSender){
 	}
 	if (aSelectedEntry == kTestEntryComplexAnim) {
 		CCDirector::sharedDirector()->replaceScene(ComplexAnimScene::scene());
+	}
+	if (aSelectedEntry == kTestEntryResizedAnim) {
+		CCDirector::sharedDirector()->replaceScene(ResizedAnimScene::scene());
 	}
 }
