@@ -8,6 +8,7 @@
 
 #include "MainMenu.h"
 #include "BasicAnimScene.h"
+#include "ComplexAnimScene.h"
 
 CCScene* MainMenuScene::scene(){
 	CCScene* aScene = CCScene::create();
@@ -88,5 +89,8 @@ void MainMenuScene::onEntry(CCObject* theSender){
 	}
 	if (aSelectedEntry == kTestEntryBasicAnim) {
 		CCDirector::sharedDirector()->replaceScene(BasicAnimScene::scene());
+	}
+	if (aSelectedEntry == kTestEntryComplexAnim) {
+		CCDirector::sharedDirector()->replaceScene(ComplexAnimScene::scene());
 	}
 }

@@ -14,7 +14,7 @@ using namespace cocos2d;
 
 enum TestEntry {
 	kTestEntryBasicAnim = 0,
-	kTestEntryFishAnim,
+	kTestEntryComplexAnim,
 	kTestEntryResizedAnim,
 	kTestEntrySpritesheetAnim,
 	kTestEntryTouchedAnim,
