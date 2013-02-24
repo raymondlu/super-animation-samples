@@ -68,7 +68,7 @@ bool HUDLayer::init(){
 	int anOldFontSize = CCMenuItemFont::fontSize();
 	CCMenuItemFont::setFontSize(48);
 	mButtons[kHUDLayerButtonPre] = CCMenuItemFont::create("Pre", this, menu_selector(HUDLayer::onButton));
-	mButtons[kHUDLayerButtonPre]->setPosition(ccp(40, aPadding));
+	mButtons[kHUDLayerButtonPre]->setPosition(ccp(160, aPadding));
 	
 	mButtons[kHUDLayerButtonNext] = CCMenuItemFont::create("Next", this, menu_selector(HUDLayer::onButton));
 	mButtons[kHUDLayerButtonNext]->setPosition(ccp(aScreenSize.width - 60, aPadding));

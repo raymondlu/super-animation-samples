@@ -107,6 +107,44 @@ public:
 };
 
 
+class SpriteSheetPerformanceLayer : public CCLayer, public SuperAnimNodeListener {
+	SuperAnimNode* mAnimNode[30];
+public:
+	SpriteSheetPerformanceLayer(){
+		CCSize aScreenSize = CCDirector::sharedDirector()->getWinSize();
+		std::string anAnimFileFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(SAM_FISH_SPRITESHEET);
+		for (int i = 0; i < 30; i++) {
+			mAnimNode[i] = SuperAnimNode::create(anAnimFileFullPath, i, this);
+			addChild(mAnimNode[i]);
+			int aRow = i / 5;
+			int aCol = i % 5;
+			mAnimNode[i]->setPosition(ccp(aScreenSize.width * (0.25f + aCol * 0.1), aScreenSize.height * (0.25f + aRow * 0.1)));
+			mAnimNode[i]->PlaySection("idle");
+		}
+		
+		CCLabelTTF* aLayer = CCLabelTTF::create("Please check FPS", "Arial", 48);
+		addChild(aLayer);
+		aLayer->setPosition(ccp(aScreenSize.width * 0.5f, aScreenSize.height * 0.15f));
+	}
+	
+	static SpriteSheetPerformanceLayer* create(){
+		SpriteSheetPerformanceLayer* aLayer = new SpriteSheetPerformanceLayer();
+		aLayer->autorelease();
+		return aLayer;
+	}
+	
+	void OnAnimSectionEnd(int theId, std::string theLabelName){
+		// loop the animation
+		if (theLabelName == "idle") {
+			mAnimNode[theId]->PlaySection("active");
+		}
+		if (theLabelName == "active") {
+			mAnimNode[theId]->PlaySection("idle");
+		}
+	}
+};
+
+
 BugFixScene::BugFixScene(){
 	mCurLayer = NULL;
 	mCurLayerID = kBugFixSceneLayerCnt;
@@ -166,6 +204,11 @@ void BugFixScene::changeLayer(BugFixSceneLayerID theNewLayer){
 	if (theNewLayer == kBugFixSceneLayerDepth2) {
 		mCurLayerID = kBugFixSceneLayerDepth2;
 		mCurLayer = DepthLayer::create(kBugFixSceneLayerDepth2);
+		addChild(mCurLayer);
+	}
+	if (theNewLayer == kBugFixSceneLayerSpriteSheetPerformance) {
+		mCurLayerID = kBugFixSceneLayerSpriteSheetPerformance;
+		mCurLayer = SpriteSheetPerformanceLayer::create();
 		addChild(mCurLayer);
 	}
 }

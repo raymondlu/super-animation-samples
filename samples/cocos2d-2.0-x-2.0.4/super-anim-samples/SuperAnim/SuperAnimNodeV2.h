@@ -47,6 +47,8 @@ namespace SuperAnim
 		int mAnimState;
 		// support sprite sheet
 		std::string mSpriteSheetFileFullPath;
+		bool mUseSpriteSheet;
+		CCTexture2D* mSpriteSheet;
 	public:
 		SuperAnimNode();
 		~SuperAnimNode();

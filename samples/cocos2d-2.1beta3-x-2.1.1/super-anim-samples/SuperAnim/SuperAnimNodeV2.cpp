@@ -25,58 +25,13 @@
 //
 
 #include "SuperAnimNodeV2.h"
-#include "kazmath.h"
 using namespace SuperAnim;
-//////////////////////////////////////////////////////////////////////////
-// Vertex shader for animation
-const GLchar * ccSuperAnim_vert =
-"                                                    \n\
-attribute vec4 a_position;                            \n\
-attribute vec2 a_texCoord;                            \n\
-attribute vec4 a_color;                                \n\
-\n\
-uniform        mat4 u_animMatrix;                        \n\
-uniform	vec4 u_animColor;                                \n\
-\n\
-#ifdef GL_ES                                        \n\
-varying lowp vec4 v_fragmentColor;                    \n\
-varying mediump vec2 v_texCoord;                    \n\
-#else                                                \n\
-varying vec4 v_fragmentColor;                        \n\
-varying vec2 v_texCoord;                            \n\
-#endif                                                \n\
-\n\
-void main()                                            \n\
-{                                                    \n\
-gl_Position = CC_MVPMatrix * (u_animMatrix * a_position);            \n\
-v_fragmentColor = u_animColor * a_color;                        \n\
-v_texCoord = a_texCoord;                        \n\
-}                                                    \n\
-";
-
-#define kCCShaderSuperAnimation        "ShaderSuperAnimation"
-#define kCCUniformAnimMatrix            "u_animMatrix"
-#define kCCUniformAnimColor            "u_animColor"
-
-void LoadSuperAnimShader(){
-	CCGLProgram* aProgram = new CCGLProgram();
-	
-	aProgram->initWithVertexShaderByteArray(ccSuperAnim_vert, ccPositionTextureColor_frag);
-	aProgram->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-	aProgram->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
-	aProgram->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
-	aProgram->link();
-    aProgram->updateUniforms();
-	
-	CCShaderCache::sharedShaderCache()->addProgram(aProgram, kCCShaderSuperAnimation);
-	aProgram->release();
-}
 //////////////////////////////////////////////////////////////////////////
 
 namespace SuperAnim {
 	class SuperAnimSprite
 	{
-	protected:
+	public:
 		CCTexture2D *mTexture;
 		ccV3F_C4B_T2F_Quad mQuad;
 	public:
@@ -87,7 +42,6 @@ namespace SuperAnim {
 		
 		void SetTexture(CCTexture2D *theTexture);
 		void SetTexture(CCTexture2D *theTexture, CCRect theTextureRect);
-		void Draw();
 	};
 
 	typedef std::map<SuperAnimSpriteId, SuperAnimSprite *> IdToSuperAnimSpriteMap;
@@ -205,42 +159,6 @@ void SuperAnimSprite::SetTexture(CCTexture2D *theTexture, CCRect theTextureRect)
 	mQuad.tl.colors = aDefaultColor;
 	mQuad.tr.colors = aDefaultColor;
 }
-void SuperAnimSprite::Draw()
-{
-	if (mTexture == NULL)
-	{
-		return;
-	}
-
-	ccGLBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-	
-	ccGLBindTexture2D(mTexture->getName());
-	
-	//
-	// Attributes
-	//
-	ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
-	
-	#define kQuadSize sizeof(mQuad.bl)
-	long offset = (long)&mQuad;
-	
-	// vertex
-	int diff = offsetof( ccV3F_C4B_T2F, vertices);
-	glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (void*) (offset + diff));
-	
-	// texCoods
-	diff = offsetof( ccV3F_C4B_T2F, texCoords);
-	glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (void*)(offset + diff));
-	
-	// color
-	diff = offsetof( ccV3F_C4B_T2F, colors);
-	glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (void*)(offset + diff));
-	
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	
-	CC_INCREMENT_GL_DRAWS(1);
-}
-
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
@@ -272,8 +190,6 @@ SuperAnimSpriteMgr *SuperAnimSpriteMgr::GetInstance()
 	if (sInstance == NULL)
 	{
 		sInstance = new SuperAnimSpriteMgr();
-		// we need a custom shader to draw animation sprite
-		LoadSuperAnimShader();
 	}
 	
 	return sInstance;
@@ -391,6 +307,8 @@ SuperAnimNode::SuperAnimNode()
 	mId = -1;
 	mListener = NULL;
 	mAnimState = kAnimStateInvalid;
+	mUseSpriteSheet = false;
+	mSpriteSheet = NULL;
 }
 
 SuperAnimNode::~SuperAnimNode()
@@ -446,7 +364,7 @@ bool SuperAnimNode::Init(std::string theAbsAnimFile, int theId, SuperAnimNodeLis
 	mAnimState = kAnimStateInitialized;
 
 	// shader program
-	setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShaderSuperAnimation));
+	setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
 	scheduleUpdate();
 	
 	setAnchorPoint(ccp(0.5f, 0.5f));
@@ -457,6 +375,9 @@ bool SuperAnimNode::Init(std::string theAbsAnimFile, int theId, SuperAnimNodeLis
 void SuperAnimNode::tryLoadSpriteSheet(){
 	if (hasFile(mSpriteSheetFileFullPath)) {
 		CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(mSpriteSheetFileFullPath.c_str());
+		std::string aTexturePath = mSpriteSheetFileFullPath.substr(0, mSpriteSheetFileFullPath.find_last_of('.') + 1) + "png";
+		mSpriteSheet = CCTextureCache::sharedTextureCache()->addImage(aTexturePath.c_str());
+		mUseSpriteSheet = true;
 	}
 }
 
@@ -464,6 +385,25 @@ void SuperAnimNode::tryUnloadSpirteSheet(){
 	if (hasFile(mSpriteSheetFileFullPath)) {
 		CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile(mSpriteSheetFileFullPath.c_str());
 	}
+}
+
+// Operator between matrix & vertex
+inline ccVertex3F operator*(const SuperAnimMatrix3 &theMatrix3, const ccVertex3F &theVec)
+{
+	return vertex3(
+				   theMatrix3.m00*theVec.x + theMatrix3.m01*theVec.y + theMatrix3.m02,
+				   theMatrix3.m10*theVec.x + theMatrix3.m11*theVec.y + theMatrix3.m12,
+				   theVec.z);
+}
+
+inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const ccV3F_C4B_T2F_Quad &theQuad)
+{
+	ccV3F_C4B_T2F_Quad aNewQuad = theQuad;
+	aNewQuad.bl.vertices = theMatrix3 * theQuad.bl.vertices;
+	aNewQuad.br.vertices = theMatrix3 * theQuad.br.vertices;
+	aNewQuad.tl.vertices = theMatrix3 * theQuad.tl.vertices;
+	aNewQuad.tr.vertices = theMatrix3 * theQuad.tr.vertices;
+	return aNewQuad;
 }
 
 void SuperAnimNode::draw()
@@ -478,7 +418,11 @@ void SuperAnimNode::draw()
 		return;
 	}
 	
-	CCDirector::sharedDirector()->setDepthTest(false);
+	#define MAX_VERTEX_CNT 4096
+	static ccVertex3F sVertexBuffer[MAX_VERTEX_CNT];
+	static ccTex2F sTexCoorBuffer[MAX_VERTEX_CNT];
+	static ccColor4B sColorBuffer[MAX_VERTEX_CNT];
+	int anIndex = 0;
 	
 	static SuperAnimObjDrawInfo sAnimObjDrawnInfo;
 	float aPixelToPointScale = 1.0f / CC_CONTENT_SCALE_FACTOR();
@@ -503,26 +447,93 @@ void SuperAnimNode::draw()
 				
 		// Be sure that you call this macro every draw
 		CC_NODE_DRAW_SETUP();
-		kmMat4 anAnimMatrix;
-		kmMat4Identity(&anAnimMatrix);
-		anAnimMatrix.mat[0] = sAnimObjDrawnInfo.mTransform.mMatrix.m00;
-		anAnimMatrix.mat[4] = sAnimObjDrawnInfo.mTransform.mMatrix.m01;
-		anAnimMatrix.mat[12] = sAnimObjDrawnInfo.mTransform.mMatrix.m02;
-		anAnimMatrix.mat[1] = sAnimObjDrawnInfo.mTransform.mMatrix.m10;
-		anAnimMatrix.mat[5] = sAnimObjDrawnInfo.mTransform.mMatrix.m11;
-		anAnimMatrix.mat[13] = sAnimObjDrawnInfo.mTransform.mMatrix.m12;
-		anAnimMatrix.mat[2] = sAnimObjDrawnInfo.mTransform.mMatrix.m20;
-		anAnimMatrix.mat[6] = sAnimObjDrawnInfo.mTransform.mMatrix.m21;
-		anAnimMatrix.mat[14] = sAnimObjDrawnInfo.mTransform.mMatrix.m22;
-		ccColor4F anAnimColor = ccc4FFromccc4B(ccc4(sAnimObjDrawnInfo.mColor.mRed, sAnimObjDrawnInfo.mColor.mGreen, sAnimObjDrawnInfo.mColor.mBlue, sAnimObjDrawnInfo.mColor.mAlpha));
-		int anAnimMatrixUinformLocation = glGetUniformLocation(getShaderProgram()->getProgram(), kCCUniformAnimMatrix);
-		int anAnimColorUinformLocation = glGetUniformLocation(getShaderProgram()->getProgram(), kCCUniformAnimColor);
-		getShaderProgram()->setUniformLocationWithMatrix4fv(anAnimMatrixUinformLocation, anAnimMatrix.mat, 1);
-		getShaderProgram()->setUniformLocationWith4fv(anAnimColorUinformLocation, &anAnimColor.r, 1);
-		aSprite->Draw();
+		
+		ccV3F_C4B_T2F_Quad aOriginQuad = aSprite->mQuad;
+		aSprite->mQuad = sAnimObjDrawnInfo.mTransform.mMatrix * aSprite->mQuad;
+		ccColor4B aColor = ccc4(sAnimObjDrawnInfo.mColor.mRed, sAnimObjDrawnInfo.mColor.mGreen, sAnimObjDrawnInfo.mColor.mBlue, sAnimObjDrawnInfo.mColor.mAlpha);
+		aSprite->mQuad.bl.colors = aColor;
+		aSprite->mQuad.br.colors = aColor;
+		aSprite->mQuad.tl.colors = aColor;
+		aSprite->mQuad.tr.colors = aColor;
+		
+		// draw
+		if (!mUseSpriteSheet)
+		{
+			ccGLBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+			ccGLBindTexture2D(aSprite->mTexture->getName());
+			//
+			// Attributes
+			ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
+			
+			#define kQuadSize sizeof(aSprite->mQuad.bl)
+			long offset = (long)&aSprite->mQuad;
+			
+			// vertex
+			int diff = offsetof( ccV3F_C4B_T2F, vertices);
+			glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (void*) (offset + diff));
+			
+			// texCoods
+			diff = offsetof( ccV3F_C4B_T2F, texCoords);
+			glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (void*)(offset + diff));
+			
+			// color
+			diff = offsetof( ccV3F_C4B_T2F, colors);
+			glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (void*)(offset + diff));
+			
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		} else {
+			// 0
+			sVertexBuffer[anIndex] = aSprite->mQuad.bl.vertices;
+			sTexCoorBuffer[anIndex] = aSprite->mQuad.bl.texCoords;
+			sColorBuffer[anIndex++] = aSprite->mQuad.bl.colors;
+			// 1
+			sVertexBuffer[anIndex] = aSprite->mQuad.tl.vertices;
+			sTexCoorBuffer[anIndex] = aSprite->mQuad.tl.texCoords;
+			sColorBuffer[anIndex++] = aSprite->mQuad.tl.colors;
+			// 2
+			sVertexBuffer[anIndex] = aSprite->mQuad.br.vertices;
+			sTexCoorBuffer[anIndex] = aSprite->mQuad.br.texCoords;
+			sColorBuffer[anIndex++] = aSprite->mQuad.br.colors;
+			// 3
+			sVertexBuffer[anIndex] = aSprite->mQuad.tl.vertices;
+			sTexCoorBuffer[anIndex] = aSprite->mQuad.tl.texCoords;
+			sColorBuffer[anIndex++] = aSprite->mQuad.tl.colors;
+			// 4
+			sVertexBuffer[anIndex] = aSprite->mQuad.tr.vertices;
+			sTexCoorBuffer[anIndex] = aSprite->mQuad.tr.texCoords;
+			sColorBuffer[anIndex++] = aSprite->mQuad.tr.colors;
+			// 5
+			sVertexBuffer[anIndex] = aSprite->mQuad.br.vertices;
+			sTexCoorBuffer[anIndex] = aSprite->mQuad.br.texCoords;
+			sColorBuffer[anIndex++] = aSprite->mQuad.br.colors;
+			
+			CCAssert(anIndex < MAX_VERTEX_CNT, "buffer is not enough");
+		}
+		
+		aSprite->mQuad = aOriginQuad;
 	}
 	
-	CCDirector::sharedDirector()->setDepthTest(false);
+	if (mUseSpriteSheet) {
+		// Be sure that you call this macro every draw
+		CC_NODE_DRAW_SETUP();
+		
+		ccGLBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		ccGLBindTexture2D(mSpriteSheet->getName());
+		//
+		// Attributes
+		ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
+		
+		// vertex
+		glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, 0, (void*) (sVertexBuffer));
+		
+		// texCoods
+		glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sTexCoorBuffer));
+		
+		// color
+		glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, (void*)(sColorBuffer));
+		
+		glDrawArrays(GL_TRIANGLES, 0, anIndex);
+	}
 }
 
 void SuperAnimNode::update(float dt)

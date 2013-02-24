@@ -18,6 +18,7 @@ enum BugFixSceneLayerID{
 	kBugFixSceneLayerAlphaBlend2,
 	kBugFixSceneLayerDepth1,
 	kBugFixSceneLayerDepth2,
+	kBugFixSceneLayerSpriteSheetPerformance,
 	
 	// keep last
 	kBugFixSceneLayerCnt
