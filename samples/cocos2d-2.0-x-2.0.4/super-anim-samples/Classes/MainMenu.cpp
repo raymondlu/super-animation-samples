@@ -11,6 +11,7 @@
 #include "ComplexAnimScene.h"
 #include "ResizedAnimScene.h"
 #include "SpritesheetAnimScene.h"
+#include "TouchedAnimScene.h"
 
 CCScene* MainMenuScene::scene(){
 	CCScene* aScene = CCScene::create();
@@ -100,5 +101,8 @@ void MainMenuScene::onEntry(CCObject* theSender){
 	}
 	if (aSelectedEntry == kTestEntrySpritesheetAnim) {
 		CCDirector::sharedDirector()->replaceScene(SpritesheetAnimScene::scene());
+	}
+	if (aSelectedEntry == kTestEntryTouchedAnim) {
+		CCDirector::sharedDirector()->replaceScene(TouchedAnimScene::scene());
 	}
 }

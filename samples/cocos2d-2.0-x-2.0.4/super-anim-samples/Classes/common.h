@@ -18,8 +18,7 @@ enum TestEntry {
 	kTestEntryResizedAnim,
 	kTestEntrySpritesheetAnim,
 	kTestEntryTouchedAnim,
-	kTestEntryFlippedAnim,
-	kTesttEntryTransparentAnim,
+	kTestEntryFlipAndTransparentAnim,
 	kTestEntryBugFix,
 	
 	// keep last
