@@ -28,6 +28,11 @@ Please refer to [super_anim_help_english_version.pdf](https://github.com/raymond
 
 ![intro](https://github.com/raymondlu/super-animation-samples/raw/master/intro.png)
 
+New Features
+------------------
+* Support sprite sheet, which means you can use TexturePacker to pack some small images into one big images
+* Support resize animation, you can resize one animation to different size to support multiple resolution
+
 Contact Me
 ------------------
    * Forum: [http://www.cocos2d-x.org/boards/6/topics/19621][1]
