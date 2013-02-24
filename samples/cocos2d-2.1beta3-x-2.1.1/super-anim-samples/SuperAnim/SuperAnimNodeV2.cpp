@@ -35,7 +35,6 @@ attribute vec4 a_position;                            \n\
 attribute vec2 a_texCoord;                            \n\
 attribute vec4 a_color;                                \n\
 \n\
-uniform        mat4 u_MVPMatrix;                        \n\
 uniform        mat4 u_animMatrix;                        \n\
 uniform	vec4 u_animColor;                                \n\
 \n\
@@ -49,8 +48,8 @@ varying vec2 v_texCoord;                            \n\
 \n\
 void main()                                            \n\
 {                                                    \n\
-gl_Position = CC_MVPMatrix * (u_animMatrix * a_position);            \n\
-v_fragmentColor = u_animColor;                        \n\
+gl_Position = CC_MVPMatrix * a_position;            \n\
+v_fragmentColor = u_animColor * a_color;                        \n\
 v_texCoord = a_texCoord;                        \n\
 }                                                    \n\
 ";
@@ -88,7 +87,7 @@ namespace SuperAnim {
 		
 		void SetTexture(CCTexture2D *theTexture);
 		void SetTexture(CCTexture2D *theTexture, CCRect theTextureRect);
-		void Draw();
+		void Draw(SuperAnimMatrix3 &theMatrix3);
 	};
 
 	typedef std::map<SuperAnimSpriteId, SuperAnimSprite *> IdToSuperAnimSpriteMap;
@@ -206,12 +205,35 @@ void SuperAnimSprite::SetTexture(CCTexture2D *theTexture, CCRect theTextureRect)
 	mQuad.tl.colors = aDefaultColor;
 	mQuad.tr.colors = aDefaultColor;
 }
-void SuperAnimSprite::Draw()
+
+// Operator between matrix & vertex
+inline ccVertex3F operator*(const SuperAnimMatrix3 &theMatrix3, const ccVertex3F &theVec)
+{
+	return vertex3(
+				   theMatrix3.m00*theVec.x + theMatrix3.m01*theVec.y + theMatrix3.m02,
+				   theMatrix3.m10*theVec.x + theMatrix3.m11*theVec.y + theMatrix3.m12,
+				   theVec.z);
+}
+
+inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const ccV3F_C4B_T2F_Quad &theQuad)
+{
+	ccV3F_C4B_T2F_Quad aNewQuad = theQuad;
+	aNewQuad.bl.vertices = theMatrix3 * theQuad.bl.vertices;
+	aNewQuad.br.vertices = theMatrix3 * theQuad.br.vertices;
+	aNewQuad.tl.vertices = theMatrix3 * theQuad.tl.vertices;
+	aNewQuad.tr.vertices = theMatrix3 * theQuad.tr.vertices;
+	return aNewQuad;
+}
+
+void SuperAnimSprite::Draw(SuperAnimMatrix3 &theMatrix3)
 {
 	if (mTexture == NULL)
 	{
 		return;
 	}
+	
+	ccV3F_C4B_T2F_Quad aOriginQuad = mQuad;
+	mQuad = theMatrix3 * mQuad;
 
 	ccGLBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	
@@ -240,6 +262,8 @@ void SuperAnimSprite::Draw()
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	
 	CC_INCREMENT_GL_DRAWS(1);
+	
+	mQuad = aOriginQuad;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -502,23 +526,23 @@ void SuperAnimNode::draw()
 				
 		// Be sure that you call this macro every draw
 		CC_NODE_DRAW_SETUP();
-		kmMat4 anAnimMatrix;
-		kmMat4Identity(&anAnimMatrix);
-		anAnimMatrix.mat[0] = sAnimObjDrawnInfo.mTransform.mMatrix.m00;
-		anAnimMatrix.mat[4] = sAnimObjDrawnInfo.mTransform.mMatrix.m01;
-		anAnimMatrix.mat[12] = sAnimObjDrawnInfo.mTransform.mMatrix.m02;
-		anAnimMatrix.mat[1] = sAnimObjDrawnInfo.mTransform.mMatrix.m10;
-		anAnimMatrix.mat[5] = sAnimObjDrawnInfo.mTransform.mMatrix.m11;
-		anAnimMatrix.mat[13] = sAnimObjDrawnInfo.mTransform.mMatrix.m12;
-		anAnimMatrix.mat[2] = sAnimObjDrawnInfo.mTransform.mMatrix.m20;
-		anAnimMatrix.mat[6] = sAnimObjDrawnInfo.mTransform.mMatrix.m21;
-		anAnimMatrix.mat[14] = sAnimObjDrawnInfo.mTransform.mMatrix.m22;
+//		kmMat4 anAnimMatrix;
+//		kmMat4Identity(&anAnimMatrix);
+//		anAnimMatrix.mat[0] = sAnimObjDrawnInfo.mTransform.mMatrix.m00;
+//		anAnimMatrix.mat[4] = sAnimObjDrawnInfo.mTransform.mMatrix.m01;
+//		anAnimMatrix.mat[12] = sAnimObjDrawnInfo.mTransform.mMatrix.m02;
+//		anAnimMatrix.mat[1] = sAnimObjDrawnInfo.mTransform.mMatrix.m10;
+//		anAnimMatrix.mat[5] = sAnimObjDrawnInfo.mTransform.mMatrix.m11;
+//		anAnimMatrix.mat[13] = sAnimObjDrawnInfo.mTransform.mMatrix.m12;
+//		anAnimMatrix.mat[2] = sAnimObjDrawnInfo.mTransform.mMatrix.m20;
+//		anAnimMatrix.mat[6] = sAnimObjDrawnInfo.mTransform.mMatrix.m21;
+//		anAnimMatrix.mat[14] = sAnimObjDrawnInfo.mTransform.mMatrix.m22;
 		ccColor4F anAnimColor = ccc4FFromccc4B(ccc4(sAnimObjDrawnInfo.mColor.mRed, sAnimObjDrawnInfo.mColor.mGreen, sAnimObjDrawnInfo.mColor.mBlue, sAnimObjDrawnInfo.mColor.mAlpha));
-		int anAnimMatrixUinformLocation = glGetUniformLocation(getShaderProgram()->getProgram(), kCCUniformAnimMatrix);
+		//int anAnimMatrixUinformLocation = glGetUniformLocation(getShaderProgram()->getProgram(), kCCUniformAnimMatrix);
 		int anAnimColorUinformLocation = glGetUniformLocation(getShaderProgram()->getProgram(), kCCUniformAnimColor);
-		getShaderProgram()->setUniformLocationWithMatrix4fv(anAnimMatrixUinformLocation, anAnimMatrix.mat, 1);
+		//getShaderProgram()->setUniformLocationWithMatrix4fv(anAnimMatrixUinformLocation, anAnimMatrix.mat, 1);
 		getShaderProgram()->setUniformLocationWith4fv(anAnimColorUinformLocation, &anAnimColor.r, 1);
-		aSprite->Draw();
+		aSprite->Draw(sAnimObjDrawnInfo.mTransform.mMatrix);
 	}
 }
 
