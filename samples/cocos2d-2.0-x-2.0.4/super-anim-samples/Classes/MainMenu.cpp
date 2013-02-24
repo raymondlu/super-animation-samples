@@ -10,6 +10,7 @@
 #include "BasicAnimScene.h"
 #include "ComplexAnimScene.h"
 #include "ResizedAnimScene.h"
+#include "SpritesheetAnimScene.h"
 
 CCScene* MainMenuScene::scene(){
 	CCScene* aScene = CCScene::create();
@@ -96,5 +97,8 @@ void MainMenuScene::onEntry(CCObject* theSender){
 	}
 	if (aSelectedEntry == kTestEntryResizedAnim) {
 		CCDirector::sharedDirector()->replaceScene(ResizedAnimScene::scene());
+	}
+	if (aSelectedEntry == kTestEntrySpritesheetAnim) {
+		CCDirector::sharedDirector()->replaceScene(SpritesheetAnimScene::scene());
 	}
 }

@@ -61,7 +61,7 @@ bool HUDLayer::init(){
 	
 	CCSize aScreenSize = CCDirector::sharedDirector()->getWinSize();
 	float aPadding = 30.0f;
-	mTitle = CCLabelTTF::create("", "Arial", 24);
+	mTitle = CCLabelTTF::create("", "Arial", 48);
 	mTitle->setAnchorPoint(ccp(0.5f, 1.0f));
 	mTitle->setPosition(ccp(aScreenSize.width * 0.5f, aScreenSize.height - aPadding));
 	addChild(mTitle);
