@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3CEEB6E516DB24380066B0B7 /* FlipAnimScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEEB6E416DB24380066B0B7 /* FlipAnimScene.cpp */; };
 		3CFA070D16D9EEFB00E0E235 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFA070C16D9EEFB00E0E235 /* QuartzCore.framework */; };
 		3CFA070F16D9EEFB00E0E235 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFA070E16D9EEFB00E0E235 /* OpenGLES.framework */; };
 		3CFA071116D9EEFB00E0E235 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFA071016D9EEFB00E0E235 /* OpenAL.framework */; };
@@ -222,6 +223,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3CEEB6E216DB24260066B0B7 /* FlipAnimScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FlipAnimScene.h; path = Classes/FlipAnimScene.h; sourceTree = "<group>"; };
+		3CEEB6E416DB24380066B0B7 /* FlipAnimScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FlipAnimScene.cpp; path = Classes/FlipAnimScene.cpp; sourceTree = "<group>"; };
 		3CFA070816D9EEFB00E0E235 /* super-anim-samples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "super-anim-samples.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CFA070C16D9EEFB00E0E235 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3CFA070E16D9EEFB00E0E235 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1637,6 +1640,8 @@
 				3CFA09F216D9F04400E0E235 /* TouchedAnimScene.h */,
 				3CFA09C716D9EF0100E0E235 /* AppDelegate.h */,
 				3CFA09C816D9EF0100E0E235 /* AppDelegate.cpp */,
+				3CEEB6E216DB24260066B0B7 /* FlipAnimScene.h */,
+				3CEEB6E416DB24380066B0B7 /* FlipAnimScene.cpp */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1932,6 +1937,7 @@
 				3CFA09F816D9F04400E0E235 /* ResizedAnimScene.cpp in Sources */,
 				3CFA09F916D9F04400E0E235 /* SpritesheetAnimScene.cpp in Sources */,
 				3CFA09FA16D9F04400E0E235 /* TouchedAnimScene.cpp in Sources */,
+				3CEEB6E516DB24380066B0B7 /* FlipAnimScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

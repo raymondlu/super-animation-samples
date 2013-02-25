@@ -49,6 +49,8 @@ namespace SuperAnim
 		std::string mSpriteSheetFileFullPath;
 		bool mUseSpriteSheet;
 		CCTexture2D* mSpriteSheet;
+		bool mIsFlipX;
+		bool mIsFlipY;
 	public:
 		SuperAnimNode();
 		~SuperAnimNode();
@@ -57,6 +59,8 @@ namespace SuperAnim
 		bool Init(std::string theAbsAnimFile, int theId, SuperAnimNodeListener *theListener);
 		void draw();
 		void update(float dt);
+		void setFlipX(bool isFlip);
+		void setFlipY(bool isFlip);
 
 		bool PlaySection(std::string theLabel);
 		void Pause();

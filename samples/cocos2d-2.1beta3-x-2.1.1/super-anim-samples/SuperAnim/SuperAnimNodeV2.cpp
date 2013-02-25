@@ -309,6 +309,7 @@ SuperAnimNode::SuperAnimNode()
 	mAnimState = kAnimStateInvalid;
 	mUseSpriteSheet = false;
 	mSpriteSheet = NULL;
+	mIsFlipX = mIsFlipY = false;
 }
 
 SuperAnimNode::~SuperAnimNode()
@@ -362,6 +363,7 @@ bool SuperAnimNode::Init(std::string theAbsAnimFile, int theId, SuperAnimNodeLis
 	mId = theId;
 	mListener = theListener;
 	mAnimState = kAnimStateInitialized;
+	mIsFlipX = mIsFlipY = false;
 
 	// shader program
 	setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
@@ -385,6 +387,14 @@ void SuperAnimNode::tryUnloadSpirteSheet(){
 	if (hasFile(mSpriteSheetFileFullPath)) {
 		CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile(mSpriteSheetFileFullPath.c_str());
 	}
+}
+
+void SuperAnimNode::setFlipX(bool isFlip){
+	mIsFlipX = isFlip;
+}
+
+void SuperAnimNode::setFlipY(bool isFlip){
+	mIsFlipY = isFlip;
 }
 
 // Operator between matrix & vertex
@@ -444,17 +454,33 @@ void SuperAnimNode::draw()
 		sAnimObjDrawnInfo.mTransform.mMatrix.m12 = anAnimContentHeightInPixel - sAnimObjDrawnInfo.mTransform.mMatrix.m12;
 		// convert to point
 		sAnimObjDrawnInfo.mTransform.Scale(aPixelToPointScale, aPixelToPointScale);
+		
+		//sAnimObjDrawnInfo.mTransform.mMatrix.m12 *= -1;
 				
 		// Be sure that you call this macro every draw
 		CC_NODE_DRAW_SETUP();
 		
 		ccV3F_C4B_T2F_Quad aOriginQuad = aSprite->mQuad;
 		aSprite->mQuad = sAnimObjDrawnInfo.mTransform.mMatrix * aSprite->mQuad;
-		ccColor4B aColor = ccc4(sAnimObjDrawnInfo.mColor.mRed, sAnimObjDrawnInfo.mColor.mGreen, sAnimObjDrawnInfo.mColor.mBlue, sAnimObjDrawnInfo.mColor.mAlpha);
+		ccColor4B aColor = ccc4(sAnimObjDrawnInfo.mColor.mRed, sAnimObjDrawnInfo.mColor.mGreen, sAnimObjDrawnInfo.mColor.mBlue, sAnimObjDrawnInfo.mColor.mAlpha);		
 		aSprite->mQuad.bl.colors = aColor;
 		aSprite->mQuad.br.colors = aColor;
 		aSprite->mQuad.tl.colors = aColor;
 		aSprite->mQuad.tr.colors = aColor;
+		
+		if (mIsFlipX) {
+			aSprite->mQuad.bl.vertices.x *= -1;
+			aSprite->mQuad.br.vertices.x *= -1;
+			aSprite->mQuad.tl.vertices.x *= -1;
+			aSprite->mQuad.tr.vertices.x *= -1;
+		}
+		
+		if (mIsFlipY) {
+			aSprite->mQuad.bl.vertices.y *= -1;
+			aSprite->mQuad.br.vertices.y *= -1;
+			aSprite->mQuad.tl.vertices.y *= -1;
+			aSprite->mQuad.tr.vertices.y *= -1;
+		}
 		
 		// draw
 		if (!mUseSpriteSheet)

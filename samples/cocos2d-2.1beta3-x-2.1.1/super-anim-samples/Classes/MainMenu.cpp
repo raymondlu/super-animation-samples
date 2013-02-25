@@ -13,6 +13,8 @@
 #include "SpritesheetAnimScene.h"
 #include "TouchedAnimScene.h"
 #include "BugFixScene.h"
+#include "FlipAnimScene.h"
+
 
 CCScene* MainMenuScene::scene(){
 	CCScene* aScene = CCScene::create();
@@ -108,5 +110,8 @@ void MainMenuScene::onEntry(CCObject* theSender){
 	}
 	if (aSelectedEntry == kTestEntryBugFix) {
 		CCDirector::sharedDirector()->replaceScene(BugFixScene::scene());
+	}
+	if (aSelectedEntry == kTestEntryFlipAnim) {
+		CCDirector::sharedDirector()->replaceScene(FlipAnimScene::scene());
 	}
 }
