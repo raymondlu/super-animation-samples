@@ -17,6 +17,7 @@ enum TestEntry {
 	kTestEntryComplexAnim,
 	kTestEntryResizedAnim,
 	kTestEntrySpritesheetAnim,
+	kTestEntryFlipAnim,
 	kTestEntryTouchedAnim,
 	kTestEntryBugFix,
 	

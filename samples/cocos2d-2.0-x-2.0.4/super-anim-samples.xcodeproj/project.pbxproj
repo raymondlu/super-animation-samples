@@ -211,6 +211,7 @@
 		3CED284916D9CE5400A20917 /* SpritesheetAnimScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CED284816D9CE5400A20917 /* SpritesheetAnimScene.cpp */; };
 		3CED284C16D9D5E200A20917 /* TouchedAnimScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CED284B16D9D5E200A20917 /* TouchedAnimScene.cpp */; };
 		3CED285216D9E2F300A20917 /* BugFixScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CED285116D9E2F300A20917 /* BugFixScene.cpp */; };
+		3CEEB6EC16DB273E0066B0B7 /* FlipAnimScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEEB6EA16DB273E0066B0B7 /* FlipAnimScene.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -661,6 +662,8 @@
 		3CED284B16D9D5E200A20917 /* TouchedAnimScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TouchedAnimScene.cpp; path = Classes/TouchedAnimScene.cpp; sourceTree = "<group>"; };
 		3CED285016D9E2E600A20917 /* BugFixScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BugFixScene.h; path = Classes/BugFixScene.h; sourceTree = "<group>"; };
 		3CED285116D9E2F300A20917 /* BugFixScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BugFixScene.cpp; path = Classes/BugFixScene.cpp; sourceTree = "<group>"; };
+		3CEEB6EA16DB273E0066B0B7 /* FlipAnimScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FlipAnimScene.cpp; path = Classes/FlipAnimScene.cpp; sourceTree = "<group>"; };
+		3CEEB6EB16DB273E0066B0B7 /* FlipAnimScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlipAnimScene.h; path = Classes/FlipAnimScene.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1543,6 +1546,8 @@
 		3CEC7B1E16D8D4A000DD97C5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3CEEB6EA16DB273E0066B0B7 /* FlipAnimScene.cpp */,
+				3CEEB6EB16DB273E0066B0B7 /* FlipAnimScene.h */,
 				3CEC7B1F16D8D4A000DD97C5 /* AppDelegate.h */,
 				3CEC7B2016D8D4A000DD97C5 /* AppDelegate.cpp */,
 				3CEC7B4416D8F3FC00DD97C5 /* common.h */,
@@ -1848,6 +1853,7 @@
 				3CED284916D9CE5400A20917 /* SpritesheetAnimScene.cpp in Sources */,
 				3CED284C16D9D5E200A20917 /* TouchedAnimScene.cpp in Sources */,
 				3CED285216D9E2F300A20917 /* BugFixScene.cpp in Sources */,
+				3CEEB6EC16DB273E0066B0B7 /* FlipAnimScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
