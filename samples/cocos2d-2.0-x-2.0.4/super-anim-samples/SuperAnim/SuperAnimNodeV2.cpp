@@ -469,17 +469,19 @@ void SuperAnimNode::draw()
 		aSprite->mQuad.tr.colors = aColor;
 		
 		if (mIsFlipX) {
-			aSprite->mQuad.bl.vertices.x *= -1;
-			aSprite->mQuad.br.vertices.x *= -1;
-			aSprite->mQuad.tl.vertices.x *= -1;
-			aSprite->mQuad.tr.vertices.x *= -1;
+			float aWidthinPixel = getContentSize().width * CC_CONTENT_SCALE_FACTOR();
+			aSprite->mQuad.bl.vertices.x = aWidthinPixel - aSprite->mQuad.bl.vertices.x;
+			aSprite->mQuad.br.vertices.x = aWidthinPixel - aSprite->mQuad.br.vertices.x;
+			aSprite->mQuad.tl.vertices.x = aWidthinPixel - aSprite->mQuad.tl.vertices.x;
+			aSprite->mQuad.tr.vertices.x = aWidthinPixel - aSprite->mQuad.tr.vertices.x;
 		}
 		
 		if (mIsFlipY) {
-			aSprite->mQuad.bl.vertices.y *= -1;
-			aSprite->mQuad.br.vertices.y *= -1;
-			aSprite->mQuad.tl.vertices.y *= -1;
-			aSprite->mQuad.tr.vertices.y *= -1;
+			float aHeightinPixel = getContentSize().height * CC_CONTENT_SCALE_FACTOR();
+			aSprite->mQuad.bl.vertices.y = aHeightinPixel - aSprite->mQuad.bl.vertices.y;
+			aSprite->mQuad.br.vertices.y = aHeightinPixel - aSprite->mQuad.br.vertices.y;
+			aSprite->mQuad.tl.vertices.y = aHeightinPixel - aSprite->mQuad.tl.vertices.y;
+			aSprite->mQuad.tr.vertices.y = aHeightinPixel - aSprite->mQuad.tr.vertices.y;
 		}
 		
 		// draw
