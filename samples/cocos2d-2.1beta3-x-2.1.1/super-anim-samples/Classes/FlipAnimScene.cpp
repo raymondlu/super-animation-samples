@@ -38,7 +38,7 @@ bool FlipAnimScene::init(){
 	
 	CCSize aScreenSize = CCDirector::sharedDirector()->getWinSize();
 	// bg
-	addChild(CCLayerColor::create(ccc4(128, 128, 128, 255)));
+	addChild(CCLayerColor::create(ccc4(128, 128, 128, 255)), -1);
 	// normal
 	std::string anAnimFileFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(SAM_FISH_SPRITESHEET);
 	mAnims[kAnimNodeNormalFish] = SuperAnimNode::create(anAnimFileFullPath.c_str(), kAnimNodeNormalFish, this);
@@ -72,6 +72,24 @@ bool FlipAnimScene::init(){
 	mHUD->mTitle->setString(getTestEntryName(kTestEntryFlipAnim).c_str());
 	
 	return true;
+}
+
+void FlipAnimScene::draw(){
+	CCLayer::draw();
+	
+	for (int i = 0; i < kAnimNodeCnt; i++) {
+		if (mAnims[i]) {
+			CCRect aAnimRect = mAnims[i]->boundingBox();
+			CCSize s = aAnimRect.size;
+			CCPoint offsetPix = aAnimRect.origin;
+			CCPoint vertices[4] = {
+				ccp(offsetPix.x,offsetPix.y), ccp(offsetPix.x+s.width,offsetPix.y),
+				ccp(offsetPix.x+s.width,offsetPix.y+s.height), ccp(offsetPix.x,offsetPix.y+s.height)
+			};
+			ccDrawPoly(vertices, 4, true);
+		}
+
+	}
 }
 
 void FlipAnimScene::OnAnimSectionEnd(int theId, std::string theLabelName){

@@ -36,6 +36,7 @@ public:
 	FlipAnimScene();
 	static CCScene* scene();
 	bool init();
+	void draw();
 	void OnAnimSectionEnd(int theId, std::string theLabelName);
 	void onHUDLayerButton(HUDLayerButton thePressedBtn);
 };
