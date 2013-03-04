@@ -133,6 +133,8 @@
 		3CEDB1B516E4870A00030F1B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CEDB1B416E4870A00030F1B /* AppDelegate.m */; };
 		3CEDB1B816E4870A00030F1B /* HelloWorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CEDB1B716E4870A00030F1B /* HelloWorldLayer.m */; };
 		3CEDB1BB16E4870A00030F1B /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CEDB1BA16E4870A00030F1B /* IntroLayer.m */; };
+		3CEDB20216E4899F00030F1B /* SuperAnimCore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEDB1FF16E4899F00030F1B /* SuperAnimCore.cpp */; };
+		3CEDB20316E4899F00030F1B /* SuperAnimNodeV2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CEDB20116E4899F00030F1B /* SuperAnimNodeV2.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -398,6 +400,10 @@
 		3CEDB1B716E4870A00030F1B /* HelloWorldLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelloWorldLayer.m; sourceTree = "<group>"; };
 		3CEDB1B916E4870A00030F1B /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
 		3CEDB1BA16E4870A00030F1B /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
+		3CEDB1FE16E4899F00030F1B /* SuperAnimCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperAnimCommon.h; sourceTree = "<group>"; };
+		3CEDB1FF16E4899F00030F1B /* SuperAnimCore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuperAnimCore.cpp; sourceTree = "<group>"; };
+		3CEDB20016E4899F00030F1B /* SuperAnimNodeV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperAnimNodeV2.h; sourceTree = "<group>"; };
+		3CEDB20116E4899F00030F1B /* SuperAnimNodeV2.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SuperAnimNodeV2.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -456,6 +462,7 @@
 		3CEDB03B16E4870700030F1B /* super-anim-samples */ = {
 			isa = PBXGroup;
 			children = (
+				3CEDB1FD16E4899F00030F1B /* SuperAnim */,
 				3CEDB1B316E4870A00030F1B /* AppDelegate.h */,
 				3CEDB1B416E4870A00030F1B /* AppDelegate.m */,
 				3CEDB1B616E4870A00030F1B /* HelloWorldLayer.h */,
@@ -832,6 +839,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		3CEDB1FD16E4899F00030F1B /* SuperAnim */ = {
+			isa = PBXGroup;
+			children = (
+				3CEDB1FE16E4899F00030F1B /* SuperAnimCommon.h */,
+				3CEDB1FF16E4899F00030F1B /* SuperAnimCore.cpp */,
+				3CEDB20016E4899F00030F1B /* SuperAnimNodeV2.h */,
+				3CEDB20116E4899F00030F1B /* SuperAnimNodeV2.mm */,
+			);
+			path = SuperAnim;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -842,6 +860,7 @@
 				3CEDB02116E4870700030F1B /* Sources */,
 				3CEDB02216E4870700030F1B /* Frameworks */,
 				3CEDB02316E4870700030F1B /* Resources */,
+				3CEDB20516E4C5A700030F1B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -899,6 +918,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3CEDB20516E4C5A700030F1B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = ../resource_sync.sh;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3CEDB02116E4870700030F1B /* Sources */ = {
@@ -1009,6 +1044,8 @@
 				3CEDB1B516E4870A00030F1B /* AppDelegate.m in Sources */,
 				3CEDB1B816E4870A00030F1B /* HelloWorldLayer.m in Sources */,
 				3CEDB1BB16E4870A00030F1B /* IntroLayer.m in Sources */,
+				3CEDB20216E4899F00030F1B /* SuperAnimCore.cpp in Sources */,
+				3CEDB20316E4899F00030F1B /* SuperAnimNodeV2.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1112,6 +1149,7 @@
 				3CEDB1C016E4870A00030F1B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

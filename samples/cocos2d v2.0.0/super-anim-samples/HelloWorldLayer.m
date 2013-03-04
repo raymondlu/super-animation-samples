@@ -13,6 +13,14 @@
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 
+const char* SAM_BASIC = "basic_transform/basic_transform.sam";
+const char* SAM_ATTACK_FRONT = "attack_front/attack_front.sam";
+const char* SAM_FADEIN_TAP = "fadein_tap/fadein-tap.sam";
+const char* SAM_FISH = "fish/fish.sam";
+const char* SAM_FISH_SPRITESHEET = "fish_spritesheet/fish.sam";
+const char* SAM_FISH_50 = "fish_50/fish.sam";
+const char* SAM_FISH_150 = "fish_150/fish.sam";
+
 #pragma mark - HelloWorldLayer
 
 // HelloWorldLayer implementation
@@ -40,65 +48,18 @@
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
-		
-		// create and initialize a Label
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
 
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
-	
-		// position the label on the center of the screen
-		label.position =  ccp( size.width /2 , size.height/2 );
+		CCLayerColor* aBg = [CCLayerColor layerWithColor:ccc4(128, 128, 128, 255)];
+		[self addChild: aBg];
 		
-		// add the label as a child to this Layer
-		[self addChild: label];
+		NSString* anAnimFileFullPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:[NSString stringWithCString:SAM_FISH_SPRITESHEET encoding:NSUTF8StringEncoding]];
 		
-		
-		
-		//
-		// Leaderboards and Achievements
-		//
-		
-		// Default font size will be 28 points.
-		[CCMenuItemFont setFontSize:28];
-		
-		// Achievement Menu Item using blocks
-		CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
-			
-			
-			GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
-			achivementViewController.achievementDelegate = self;
-			
-			AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-			
-			[[app navController] presentModalViewController:achivementViewController animated:YES];
-			
-			[achivementViewController release];
-		}
-									   ];
-
-		// Leaderboard Menu Item using blocks
-		CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
-			
-			
-			GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
-			leaderboardViewController.leaderboardDelegate = self;
-			
-			AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-			
-			[[app navController] presentModalViewController:leaderboardViewController animated:YES];
-			
-			[leaderboardViewController release];
-		}
-									   ];
-		
-		CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, nil];
-		
-		[menu alignItemsHorizontallyWithPadding:20];
-		[menu setPosition:ccp( size.width/2, size.height/2 - 50)];
-		
-		// Add the menu to the layer
-		[self addChild:menu];
+		mAnimNode = [SuperAnimNode create:anAnimFileFullPath id:0 listener:self];
+		[self addChild:mAnimNode];
+		mAnimNode.position = ccp(size.width * 0.5f, size.height * 0.5f);
+		[mAnimNode PlaySection:@"idle"];
 
 	}
 	return self;
@@ -115,17 +76,12 @@
 	[super dealloc];
 }
 
-#pragma mark GameKit delegate
-
--(void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController
-{
-	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-	[[app navController] dismissModalViewControllerAnimated:YES];
-}
-
--(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController
-{
-	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-	[[app navController] dismissModalViewControllerAnimated:YES];
+- (void) OnAnimSectionEnd:(int)theId label:(NSString *)theLabelName{
+	if ([theLabelName compare:@"idle"] == NSOrderedSame) {
+		[mAnimNode PlaySection:@"active"];
+	}
+	if ([theLabelName compare:@"active"] == NSOrderedSame) {
+		[mAnimNode PlaySection:@"idle"];
+	}
 }
 @end
