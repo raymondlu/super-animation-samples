@@ -27,6 +27,11 @@
 #include "SuperAnimNodeV2.h"
 using namespace SuperAnim;
 //////////////////////////////////////////////////////////////////////////
+// platform functions needed by SuperAnimCore
+unsigned char* GetFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize){
+	return CCFileUtils::sharedFileUtils()->getFileData(pszFileName, pszMode, pSize);
+}
+//////////////////////////////////////////////////////////////////////////
 
 namespace SuperAnim {
 	class SuperAnimSprite
@@ -335,12 +340,17 @@ SuperAnimNode *SuperAnimNode::create(std::string theAbsAnimFile, int theId, Supe
 }
 
 bool hasFile(std::string theFileFullPath){
-	FILE *aFileHandler = fopen(theFileFullPath.c_str(), "rb");
-    if (aFileHandler != NULL) {
-        fclose(aFileHandler);
-        return true;
+	bool hasFile = false;
+	bool shouldPopupNoitify = CCFileUtils::sharedFileUtils()->isPopupNotify();
+	CCFileUtils::sharedFileUtils()->setPopupNotify(false);
+	unsigned long aSize;
+	unsigned char *aDataBuffer = CCFileUtils::sharedFileUtils()->getFileData(theFileFullPath.c_str(), "rb", &aSize);
+    if (aDataBuffer != NULL) {
+        CC_SAFE_DELETE_ARRAY(aDataBuffer);
+        hasFile = true;
     }
-    return false;
+	CCFileUtils::sharedFileUtils()->setPopupNotify(shouldPopupNoitify);
+    return hasFile;
 }
 
 bool SuperAnimNode::Init(std::string theAbsAnimFile, int theId, SuperAnimNodeListener *theListener)

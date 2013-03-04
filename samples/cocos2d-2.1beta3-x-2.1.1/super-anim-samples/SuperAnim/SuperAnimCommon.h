@@ -125,4 +125,7 @@ namespace SuperAnim{
 	extern bool HasSection(const SuperAnimHandler &theHandler, std::string theLabelName);
 	extern bool PlayBySection(SuperAnimHandler &theHandler, std::string theLabelName);
 };
+
+// platform related functions
+extern unsigned char* GetFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize);
 #endif
