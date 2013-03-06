@@ -337,7 +337,7 @@ namespace SuperAnim {
 				int aMaxFrameNum = -1;
 				for (StringToIntMap::const_iterator it = aMainDef->mLabels.begin(); it != aMainDef->mLabels.end(); ++it)
 				{
-					if (aCurFrame >= it->second && it->second > aMaxFrameNum)
+					if (aCurFrame + 1>= it->second && it->second > aMaxFrameNum)
 					{
 						aMaxFrameNum = it->second;
 						aTempLabel = it->first;
