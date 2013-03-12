@@ -326,7 +326,7 @@ namespace SuperAnim {
 			// Check whether reach a new label frame
 			bool aIsNewLabel = false;
 			SuperAnimMainDef *aMainDef = SuperAnimDefMgr::GetInstance()->Load_GetSuperAnimMainDef(theMainDefHandler.mMainDefKey);
-			if (aCurFrame >= aMainDef->mEndFrameNum)// reach the end??
+			if (aCurFrame >= aMainDef->mEndFrameNum + 1)// reach the end??
 			{
 				theMainDefHandler.mCurFrameNum = aMainDef->mEndFrameNum;
 				aIsNewLabel = true;

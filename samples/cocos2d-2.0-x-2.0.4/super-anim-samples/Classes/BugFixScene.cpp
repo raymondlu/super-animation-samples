@@ -144,6 +144,30 @@ public:
 	}
 };
 
+class FrameByFrameLayer : public CCLayer, public SuperAnimNodeListener {
+	SuperAnimNode* mAnimNode;
+public:
+	FrameByFrameLayer(){
+		CCSize aScreenSize = CCDirector::sharedDirector()->getWinSize();
+		std::string anAnimFileFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(SAM_FRAME_BY_FRAME);
+		mAnimNode = SuperAnimNode::create(anAnimFileFullPath, 0, this);
+		addChild(mAnimNode);
+		mAnimNode->setPosition(ccp(aScreenSize.width * 0.5f, aScreenSize.height * 0.5f));
+		mAnimNode->PlaySection("run2");
+		CCLabelTTF* aLayer = CCLabelTTF::create("Number 1 should be displayed.", "Arial", 48);
+		addChild(aLayer);
+		aLayer->setPosition(ccp(aScreenSize.width * 0.5f, aScreenSize.height * 0.25f));
+	}
+	void OnAnimSectionEnd(int theId, std::string theLabelName){
+		mAnimNode->PlaySection("run2");
+	}
+	static FrameByFrameLayer* create(){
+		FrameByFrameLayer* aLayer = new FrameByFrameLayer();
+		aLayer->autorelease();
+		return aLayer;
+	}
+};
+
 
 BugFixScene::BugFixScene(){
 	mCurLayer = NULL;
@@ -209,6 +233,12 @@ void BugFixScene::changeLayer(BugFixSceneLayerID theNewLayer){
 	if (theNewLayer == kBugFixSceneLayerSpriteSheetPerformance) {
 		mCurLayerID = kBugFixSceneLayerSpriteSheetPerformance;
 		mCurLayer = SpriteSheetPerformanceLayer::create();
+		addChild(mCurLayer);
+	}
+	
+	if (theNewLayer == kBugFixSceneLayerFrameByFrame) {
+		mCurLayerID = kBugFixSceneLayerFrameByFrame;
+		mCurLayer = FrameByFrameLayer::create();
 		addChild(mCurLayer);
 	}
 }
