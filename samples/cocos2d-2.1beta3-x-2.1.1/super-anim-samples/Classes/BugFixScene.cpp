@@ -169,6 +169,48 @@ public:
 };
 
 
+class VariableAnimSpeedLayer : public CCLayer, public SuperAnimNodeListener {
+	SuperAnimNode* mAnimNode[3];
+public:
+	VariableAnimSpeedLayer(){
+		CCSize aScreenSize = CCDirector::sharedDirector()->getWinSize();
+		std::string anAnimFileFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(SAM_FISH_SPRITESHEET);
+		for (int i = 0; i < 3; i++) {
+			mAnimNode[i] = SuperAnimNode::create(anAnimFileFullPath, i, this);
+			addChild(mAnimNode[i]);
+			mAnimNode[i]->setPosition(ccp(aScreenSize.width * (0.25f + i * 0.2), aScreenSize.height * (0.45f)));
+			mAnimNode[i]->PlaySection("idle");
+			mAnimNode[i]->setSpeedFactor(0.5f * (i + 1));
+		}
+		
+		CCLabelTTF* aLayer = CCLabelTTF::create("Speed factor: 0.5", "Arial", 24);
+		addChild(aLayer);
+		aLayer->setPosition(ccp(aScreenSize.width * 0.25f, aScreenSize.height * 0.35f));
+		aLayer = CCLabelTTF::create("Speed factor: 1.0", "Arial", 24);
+		addChild(aLayer);
+		aLayer->setPosition(ccp(aScreenSize.width * 0.45f, aScreenSize.height * 0.35f));
+		aLayer = CCLabelTTF::create("Speed factor: 1.5", "Arial", 24);
+		addChild(aLayer);
+		aLayer->setPosition(ccp(aScreenSize.width * 0.65f, aScreenSize.height * 0.35f));
+	}
+	
+	static VariableAnimSpeedLayer* create(){
+		VariableAnimSpeedLayer* aLayer = new VariableAnimSpeedLayer();
+		aLayer->autorelease();
+		return aLayer;
+	}
+	
+	void OnAnimSectionEnd(int theId, std::string theLabelName){
+		// loop the animation
+		if (theLabelName == "idle") {
+			mAnimNode[theId]->PlaySection("active");
+		}
+		if (theLabelName == "active") {
+			mAnimNode[theId]->PlaySection("idle");
+		}
+	}
+};
+
 BugFixScene::BugFixScene(){
 	mCurLayer = NULL;
 	mCurLayerID = kBugFixSceneLayerCnt;
@@ -239,6 +281,12 @@ void BugFixScene::changeLayer(BugFixSceneLayerID theNewLayer){
 	if (theNewLayer == kBugFixSceneLayerFrameByFrame) {
 		mCurLayerID = kBugFixSceneLayerFrameByFrame;
 		mCurLayer = FrameByFrameLayer::create();
+		addChild(mCurLayer);
+	}
+	
+	if (theNewLayer == kBugFixSceneLayerVairableSpeed) {
+		mCurLayerID = kBugFixSceneLayerVairableSpeed;
+		mCurLayer = VariableAnimSpeedLayer::create();
 		addChild(mCurLayer);
 	}
 }

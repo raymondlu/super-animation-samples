@@ -43,9 +43,11 @@
 	CCTexture2D* mSpriteSheet;
 	BOOL mIsFlipX;
 	BOOL mIsFlipY;
+	float mSpeedFactor;
 }
 @property (nonatomic,readwrite) BOOL flipX;
 @property (nonatomic,readwrite) BOOL flipY;
+@property (nonatomic,readwrite) float speedFactor;
 
 +(id) create:(NSString*) theAbsAnimFile id:(int) theId listener:(id<SuperAnimNodeListener>) theListener;
 -(id) initWithAnimFile:(NSString*) theAbsAnimFile id:(int) theId listener:(id<SuperAnimNodeListener>) theListener;

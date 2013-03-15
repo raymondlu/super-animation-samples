@@ -328,6 +328,7 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 @implementation SuperAnimNode
 @synthesize flipX = mIsFlipX;
 @synthesize flipY = mIsFlipY;
+@synthesize speedFactor = mSpeedFactor;
 
 -(void)dealloc{
 	[self tryUnloadSpirteSheet];
@@ -370,6 +371,7 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 		mListener = theListener;
 		mAnimState = kAnimStateInitialized;
 		mIsFlipX = mIsFlipY = false;
+		mSpeedFactor = 1.0f;
 		
 		// shader program
 		self.shaderProgram = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
@@ -560,7 +562,10 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 	}
 	SuperAnimHandler &anAnimHandler = *((SuperAnimHandler*)mAnimHandler);
 	bool isNewLabel = false;
+	float anOriginFrameRate = anAnimHandler.mAnimRate;
+	anAnimHandler.mAnimRate *= mSpeedFactor;
 	IncAnimFrameNum(anAnimHandler, time, isNewLabel);
+	anAnimHandler.mAnimRate = anOriginFrameRate;
 	if (isNewLabel && mListener)
 	{
 		[mListener OnAnimSectionEnd:mId

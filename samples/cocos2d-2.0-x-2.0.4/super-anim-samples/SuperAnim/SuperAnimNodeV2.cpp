@@ -374,6 +374,7 @@ bool SuperAnimNode::Init(std::string theAbsAnimFile, int theId, SuperAnimNodeLis
 	mListener = theListener;
 	mAnimState = kAnimStateInitialized;
 	mIsFlipX = mIsFlipY = false;
+	mSpeedFactor = 1.0f;
 
 	// shader program
 	setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
@@ -582,7 +583,10 @@ void SuperAnimNode::update(float dt)
 	}
 	
 	bool isNewLabel = false;
+	float anOriginFrameRate = mAnimHandler.mAnimRate;
+	mAnimHandler.mAnimRate *= mSpeedFactor;
 	IncAnimFrameNum(mAnimHandler, dt, isNewLabel);
+	mAnimHandler.mAnimRate = anOriginFrameRate;
 	if (isNewLabel && mListener)
 	{
 		mListener->OnAnimSectionEnd(mId, mAnimHandler.mCurLabel);
@@ -591,6 +595,10 @@ void SuperAnimNode::update(float dt)
 
 bool SuperAnimNode::HasSection(std::string theLabelName){
 	return  SuperAnim::HasSection(mAnimHandler, theLabelName);
+}
+
+void SuperAnimNode::setSpeedFactor(float theNewSpeedFactor){
+	mSpeedFactor = theNewSpeedFactor;
 }
 
 bool SuperAnimNode::PlaySection(std::string theLabel)

@@ -51,6 +51,7 @@ namespace SuperAnim
 		CCTexture2D* mSpriteSheet;
 		bool mIsFlipX;
 		bool mIsFlipY;
+		float mSpeedFactor;
 	public:
 		SuperAnimNode();
 		~SuperAnimNode();
@@ -70,6 +71,7 @@ namespace SuperAnim
 		int GetCurFrame();
 		std::string GetCurSectionName();
 		bool HasSection(std::string theLabelName);
+		void setSpeedFactor(float theNewSpeedFactor);
 	private:
 		// support sprite sheet
 		void tryLoadSpriteSheet();
