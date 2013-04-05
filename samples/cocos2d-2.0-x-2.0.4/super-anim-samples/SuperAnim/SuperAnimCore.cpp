@@ -179,6 +179,13 @@ namespace SuperAnim {
 	};
 	typedef std::vector<SuperAnimFrame> SuperAnimFrameVector;
 	typedef std::map<std::string, int> StringToIntMap;
+	class SuperAnimLabel{
+	public:
+		std::string mLabelName;
+		int mStartFrameNum;
+		int mEndFrameNum;
+	};
+	typedef std::vector<SuperAnimLabel> SuperAnimLabelArray;
 	class SuperAnimMainDef
 	{
 	public:
@@ -186,7 +193,7 @@ namespace SuperAnim {
 		int mStartFrameNum;
 		int mEndFrameNum;
 		int mAnimRate;
-		StringToIntMap mLabels;
+		SuperAnimLabelArray mLabels;
 		int mX;
 		int mY;
 		int mWidth;
@@ -325,27 +332,8 @@ namespace SuperAnim {
 		{
 			// Check whether reach a new label frame
 			bool aIsNewLabel = false;
-			SuperAnimMainDef *aMainDef = SuperAnimDefMgr::GetInstance()->Load_GetSuperAnimMainDef(theMainDefHandler.mMainDefKey);
-			if (aCurFrame >= aMainDef->mEndFrameNum + 1)// reach the end??
-			{
-				theMainDefHandler.mCurFrameNum = aMainDef->mEndFrameNum;
+			if (aCurFrame > theMainDefHandler.mLastFrameNumOfCurLabel) {
 				aIsNewLabel = true;
-			}
-			else
-			{
-				std::string aTempLabel;
-				int aMaxFrameNum = -1;
-				for (StringToIntMap::const_iterator it = aMainDef->mLabels.begin(); it != aMainDef->mLabels.end(); ++it)
-				{
-					if (aCurFrame + 1 >= it->second && it->second > aMaxFrameNum)
-					{
-						aMaxFrameNum = it->second;
-						aTempLabel = it->first;
-					}
-				}
-				if (aTempLabel != theMainDefHandler.mCurLabel) {
-					aIsNewLabel = true;
-				}
 			}
 			
 			hitNewLabel = aIsNewLabel;
@@ -357,9 +345,9 @@ namespace SuperAnim {
 		if (aMainDef == NULL) {
 			return false;
 		}
-		for (StringToIntMap::const_iterator it = aMainDef->mLabels.begin(); it != aMainDef->mLabels.end(); ++it)
+		for (SuperAnimLabelArray::const_iterator it = aMainDef->mLabels.begin(); it != aMainDef->mLabels.end(); ++it)
 		{
-			if (it->first == theLabelName)
+			if (it->mLabelName == theLabelName)
 				return true;
 		}
 		
@@ -372,12 +360,13 @@ namespace SuperAnim {
 			theHandler.mIsHandlerValid = false;
 			return false;
 		}
-		for (StringToIntMap::const_iterator it = aMainDef->mLabels.begin(); it != aMainDef->mLabels.end(); ++it)
+		for (SuperAnimLabelArray::const_iterator it = aMainDef->mLabels.begin(); it != aMainDef->mLabels.end(); ++it)
 		{
-			if (it->first == theLabelName)
+			if (it->mLabelName == theLabelName)
 			{
-				theHandler.mCurFrameNum = it->second;
+				theHandler.mCurFrameNum = it->mStartFrameNum;
 				theHandler.mCurLabel = theLabelName;
+				theHandler.mLastFrameNumOfCurLabel = it->mEndFrameNum;
 				theHandler.mIsHandlerValid = true;
 				return true;
 			}
@@ -556,7 +545,13 @@ namespace SuperAnim {
 	}
 		
 	typedef std::map<int, SuperAnimObject> IntToSuperAnimObjectMap;
-	
+	bool SuperAnimLabelLess(const SuperAnimLabel& a, const SuperAnimLabel& b){
+		if (a.mStartFrameNum != b.mStartFrameNum) {
+			return a.mStartFrameNum < b.mStartFrameNum;
+		}
+		
+		return true;
+	}
 	bool SuperAnimDefMgr::LoadSuperAnimMainDef(std::string theSuperAnimFile)
 	{
 		std::string aFullPath = theSuperAnimFile;
@@ -599,6 +594,8 @@ namespace SuperAnim {
 		aMainDef.mY = aBuffer.ReadLong() / TWIPS_PER_PIXEL;
 		aMainDef.mWidth = aBuffer.ReadLong() / TWIPS_PER_PIXEL;
 		aMainDef.mHeight = aBuffer.ReadLong() / TWIPS_PER_PIXEL;
+		
+		SuperAnimLabelArray aSuperAnimLabelArray;
 		
 		int aNumImages = aBuffer.ReadShort();
 		aMainDef.mImageVector.resize(aNumImages);
@@ -723,7 +720,11 @@ namespace SuperAnim {
 			if (aFrameFlags & FRAMEFLAGS_FRAME_NAME)
 			{
 				std::string aFrameName = aBuffer.ReadString();
-				aMainDef.mLabels.insert(StringToIntMap::value_type(aFrameName, aFrameNum));
+				SuperAnimLabel aLabel;
+				aLabel.mLabelName = aFrameName;
+				aLabel.mStartFrameNum = aFrameNum;
+				//aMainDef.mLabels.insert(StringToIntMap::value_type(aFrameName, aFrameNum));
+				aSuperAnimLabelArray.push_back(aLabel);
 			}
 			
 			aFrame.mObjectVector.resize(aCurObjectMap.size());
@@ -734,6 +735,26 @@ namespace SuperAnim {
 				aFrame.mObjectVector.push_back(anObject);
 			}
 
+		}
+		
+		// sort the label array & calculate the end frame for each label
+		std::sort(aSuperAnimLabelArray.begin(), aSuperAnimLabelArray.end(), SuperAnimLabelLess);
+		if (aSuperAnimLabelArray.size() > 1) {
+			for (int i = 0; i < aSuperAnimLabelArray.size() - 1; i++) {
+				SuperAnimLabel& aCurLabel = aSuperAnimLabelArray[i];
+				const SuperAnimLabel& aNextLabel = aSuperAnimLabelArray[i + 1];
+				aCurLabel.mEndFrameNum = aNextLabel.mStartFrameNum - 1;
+			}
+			SuperAnimLabel& aLastLabel = aSuperAnimLabelArray[aSuperAnimLabelArray.size() - 1];
+			aLastLabel.mEndFrameNum = aMainDef.mEndFrameNum;
+		} else {
+			// only have one section
+			SuperAnimLabel& aLabel = aSuperAnimLabelArray[0];
+			aLabel.mEndFrameNum = aMainDef.mEndFrameNum;
+		}
+		aMainDef.mLabels.clear();
+		for (int i = 0; i < aSuperAnimLabelArray.size(); i++) {
+			aMainDef.mLabels.push_back(aSuperAnimLabelArray[i]);
 		}
 		
 		return true;
