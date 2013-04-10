@@ -143,7 +143,7 @@ public:
 	}
 };
 
-
+/*
 class FrameByFrameLayer : public CCLayer, public SuperAnimNodeListener {
 	SuperAnimNode* mAnimNode;
 public:
@@ -167,7 +167,7 @@ public:
 		return aLayer;
 	}
 };
-
+*/
 
 class VariableAnimSpeedLayer : public CCLayer, public SuperAnimNodeListener {
 	SuperAnimNode* mAnimNode[3];
@@ -210,6 +210,83 @@ public:
 		}
 	}
 };
+
+
+class NoFlickerLayer : public CCLayer, public SuperAnimNodeListener {
+	enum Section{
+		kSectionRightGo = 0,
+		kSectionLeftGo,
+		kSectionRightAttack,
+		kSectionLeftAttack,
+		kSectionRightAttack02,
+		kSectionLeftAttack02,
+		kSectionRightDoubleAttack,
+		kSectionLeftDoubleAttack,
+		kSectionRightDie,
+		kSectionLeftDie,
+		kSectionRightIdle,
+		kSectionLeftIdle,
+		
+		// keep last
+		kSectionCnt
+	};
+	
+	const char* gSectionNames[kSectionCnt] = {
+		"right_go",
+		"left_go",
+		"right_attack",
+		"left_attack",
+		"right_attack02",
+		"left_attack02",
+		"right_doubleattack",
+		"left_doubleattack",
+		"right_die",
+		"left_die",
+		"right_idle",
+		"left_idle",
+	};
+	
+	SuperAnimNode* mAnimNode;
+	Section mCurSection;
+	CCLabelTTF* mLabelCurSection;
+public:
+	NoFlickerLayer(){
+		CCSize aScreenSize = CCDirector::sharedDirector()->getWinSize();
+		std::string anAnimFileFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(SAM_NO_FLICKER);
+		mAnimNode = SuperAnimNode::create(anAnimFileFullPath, 0, this);
+		addChild(mAnimNode);
+		mAnimNode->setPosition(ccp(aScreenSize.width * 0.5f, \
+								   aScreenSize.height * 0.5f));
+		mCurSection = kSectionRightGo;
+		mAnimNode->PlaySection(gSectionNames[mCurSection]);
+		
+		mLabelCurSection = CCLabelTTF::create(gSectionNames[mCurSection], "Arial", 24);
+		addChild(mLabelCurSection);
+		mLabelCurSection->setPosition(ccp(aScreenSize.width * 0.5f, \
+										  aScreenSize.height * 0.85f));
+		CCLabelTTF* aLabelTip = CCLabelTTF::create("Tap the screen to play next section.\n no section flicker.", "Arial", 24);
+		addChild(aLabelTip);
+		aLabelTip->setPosition(ccp(aScreenSize.width * 0.5f, \
+								   aScreenSize.height * 0.25f));
+		
+		CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -1, false);
+	}
+	static NoFlickerLayer* create(){
+		NoFlickerLayer* aLayer = new NoFlickerLayer();
+		aLayer->autorelease();
+		return aLayer;
+	}
+	bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
+		mCurSection = (Section)((mCurSection + 1) % kSectionCnt);
+		mAnimNode->PlaySection(gSectionNames[mCurSection]);
+		mLabelCurSection->setString(gSectionNames[mCurSection]);
+		return true;
+	}
+	void OnAnimSectionEnd(int theId, std::string theLabelName){
+		mAnimNode->PlaySection(gSectionNames[mCurSection]);
+	}
+};
+
 
 BugFixScene::BugFixScene(){
 	mCurLayer = NULL;
@@ -277,16 +354,22 @@ void BugFixScene::changeLayer(BugFixSceneLayerID theNewLayer){
 		mCurLayer = SpriteSheetPerformanceLayer::create();
 		addChild(mCurLayer);
 	}
-	
+/*
 	if (theNewLayer == kBugFixSceneLayerFrameByFrame) {
 		mCurLayerID = kBugFixSceneLayerFrameByFrame;
 		mCurLayer = FrameByFrameLayer::create();
 		addChild(mCurLayer);
 	}
-	
+*/	
 	if (theNewLayer == kBugFixSceneLayerVairableSpeed) {
 		mCurLayerID = kBugFixSceneLayerVairableSpeed;
 		mCurLayer = VariableAnimSpeedLayer::create();
+		addChild(mCurLayer);
+	}
+	
+	if (theNewLayer == kBugFixSceneLayerNoFlicker) {
+		mCurLayerID = kBugFixSceneLayerNoFlicker;
+		mCurLayer = NoFlickerLayer::create();
 		addChild(mCurLayer);
 	}
 }

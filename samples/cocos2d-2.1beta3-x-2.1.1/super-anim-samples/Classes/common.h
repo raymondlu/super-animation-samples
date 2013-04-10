@@ -36,6 +36,7 @@ extern const char* SAM_FISH_SPRITESHEET;
 extern const char* SAM_FISH_50;
 extern const char* SAM_FISH_150;
 extern const char* SAM_FRAME_BY_FRAME;
+extern const char* SAM_NO_FLICKER;
 
 enum HUDLayerButton{
 	kHUDLayerButtonPre = 0,

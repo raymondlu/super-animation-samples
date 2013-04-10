@@ -34,6 +34,7 @@ const char* SAM_FISH_SPRITESHEET = "fish_spritesheet/fish.sam";
 const char* SAM_FISH_50 = "fish_50/fish.sam";
 const char* SAM_FISH_150 = "fish_150/fish.sam";
 const char* SAM_FRAME_BY_FRAME = "frame_by_frame/frame-by-frame.sam";
+const char* SAM_NO_FLICKER = "no-flicker/no-flicker.sam";
 
 HUDLayer::HUDLayer(){
 	for (int i = 0; i < kHUDLayerButtonCnt; i++) {
