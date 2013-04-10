@@ -631,4 +631,23 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 	return [NSString stringWithCString:anAnimHandler.mCurLabel.c_str() encoding:NSUTF8StringEncoding];
 }
 
++(BOOL) LoadAnimFileExt:(const char*) theAbsAnimFile{
+	// try to load the sprite sheet file
+	std::string anAbsAnimFile = theAbsAnimFile;
+	std::string aSpriteSheetFileFullPath = anAbsAnimFile.substr(0, anAbsAnimFile.find_last_of('.') + 1) + "plist";
+	if (hasFile(aSpriteSheetFileFullPath)) {
+		[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithCString:aSpriteSheetFileFullPath.c_str() encoding:NSUTF8StringEncoding]];
+	}
+	return LoadAnimFile(theAbsAnimFile);
+}
+
++(void) UnloadAnimFileExt:(const char*) theAbsAnimFile{
+	// try to unload the sprite sheet file
+	std::string anAbsAnimFile = theAbsAnimFile;
+	std::string aSpriteSheetFileFullPath = anAbsAnimFile.substr(0, anAbsAnimFile.find_last_of('.') + 1) + "plist";
+	if (hasFile(aSpriteSheetFileFullPath)) {
+		[[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFramesFromFile:[NSString stringWithCString:aSpriteSheetFileFullPath.c_str() encoding:NSUTF8StringEncoding]];
+	}
+	return UnloadAnimFile(theAbsAnimFile);
+}
 @end

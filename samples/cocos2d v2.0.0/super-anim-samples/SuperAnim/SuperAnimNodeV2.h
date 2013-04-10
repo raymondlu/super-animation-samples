@@ -64,15 +64,15 @@
 // support sprite sheet
 -(void) tryLoadSpriteSheet;
 -(void) tryUnloadSpirteSheet;
-@end
-	
+
 // If you want to load super animation file before create super anim node,
 // call this function.
-extern bool LoadAnimFile(const char* theAbsAnimFile);
-	
++(BOOL) LoadAnimFileExt:(const char*) theAbsAnimFile;
 // super animation file is loaded automatically when creating super anim node, then stored in a cache.
 // if you want to unload it, call this function.
 // P.S.: the textures used in animation are still in memory after call the function.
 // cocos2d keep a reference to these textures, call removeUnusedTextures by yourself
 // to remove those texture.
-extern void UnloadAnimFile(const char* theAbsAnimFile);
++(void) UnloadAnimFileExt:(const char*) theAbsAnimFile;
+@end
+

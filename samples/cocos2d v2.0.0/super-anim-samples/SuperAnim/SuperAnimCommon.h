@@ -126,5 +126,7 @@ namespace SuperAnim{
 	extern void IncAnimFrameNum(SuperAnimHandler &theMainDefHandler, float theDeltaTime, bool &hitNewFrame);
 	extern bool HasSection(const SuperAnimHandler &theHandler, std::string theLabelName);
 	extern bool PlayBySection(SuperAnimHandler &theHandler, std::string theLabelName);
+	extern bool LoadAnimFile(std::string theAbsAnimFile);
+	extern void UnloadAnimFile(std::string theAbsAnimFile);
 };
 #endif

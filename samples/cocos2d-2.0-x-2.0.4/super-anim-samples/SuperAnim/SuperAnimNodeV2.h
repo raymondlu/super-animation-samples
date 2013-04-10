@@ -80,14 +80,14 @@ namespace SuperAnim
 	
 	// If you want to load super animation file before create super anim node,
 	// call this function.
-	extern bool LoadAnimFile(std::string theAbsAnimFile);
+	extern bool LoadAnimFileExt(std::string theAbsAnimFile);
 	
 	// super animation file is loaded automatically when creating super anim node, then stored in a cache.
 	// if you want to unload it, call this function.
 	// P.S.: the textures used in animation are still in memory after call the function.
 	// cocos2d keep a reference to these textures, call removeUnusedTextures by yourself
 	// to remove those texture.
-	extern void UnloadAnimFile(std::string theAbsAnimFile);
+	extern void UnloadAnimFileExt(std::string theAbsAnimFile);
 };
 
 #endif

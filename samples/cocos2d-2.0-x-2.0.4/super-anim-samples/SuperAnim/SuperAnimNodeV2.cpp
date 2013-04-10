@@ -652,3 +652,21 @@ int SuperAnimNode::GetCurFrame(){
 std::string SuperAnimNode::GetCurSectionName(){
 	return mAnimHandler.mCurLabel;
 }
+
+bool SuperAnim::LoadAnimFileExt(std::string theAbsAnimFile){
+	// try to load the sprite sheet file
+	std::string aSpriteSheetFileFullPath = theAbsAnimFile.substr(0, theAbsAnimFile.find_last_of('.') + 1) + "plist";
+	if (hasFile(aSpriteSheetFileFullPath)) {
+		CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(aSpriteSheetFileFullPath.c_str());
+	}
+	return LoadAnimFile(theAbsAnimFile);
+}
+
+void SuperAnim::UnloadAnimFileExt(std::string theAbsAnimFile){
+	// try to unload the sprite sheet file
+	std::string aSpriteSheetFileFullPath = theAbsAnimFile.substr(0, theAbsAnimFile.find_last_of('.') + 1) + "plist";
+	if (hasFile(aSpriteSheetFileFullPath)) {
+		CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile(aSpriteSheetFileFullPath.c_str());
+	}
+	return UnloadAnimFile(theAbsAnimFile);
+}
