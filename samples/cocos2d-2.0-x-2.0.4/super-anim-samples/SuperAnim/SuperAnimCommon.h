@@ -28,6 +28,7 @@
 
 #include <math.h>
 #include <string>
+#include <map>
 
 namespace SuperAnim{
 
@@ -77,8 +78,8 @@ namespace SuperAnim{
 	};
 	//////////////////////////////////////////////////////////////////////////
 	// for sprite
-	typedef std::string SuperAnimSpriteId;
-	#define InvalidSuperAnimSpriteId ""
+	typedef void* SuperAnimSpriteId;
+	#define InvalidSuperAnimSpriteId NULL
 	
 	// implemented by super animation node
 	extern SuperAnimSpriteId LoadSuperAnimSprite(std::string theSpriteName);

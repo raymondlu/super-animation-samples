@@ -100,7 +100,7 @@ public:
 				mAnimNode->PlaySection("tap");
 			}
 			if (theLabelName == "tap") {
-				mAnimNode->PlaySection("tap");
+				mAnimNode->PlaySection("fadein");
 			}
 		}
 	}

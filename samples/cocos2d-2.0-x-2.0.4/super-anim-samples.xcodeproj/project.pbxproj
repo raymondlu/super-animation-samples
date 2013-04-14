@@ -212,6 +212,7 @@
 		3CED284C16D9D5E200A20917 /* TouchedAnimScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CED284B16D9D5E200A20917 /* TouchedAnimScene.cpp */; };
 		3CED285216D9E2F300A20917 /* BugFixScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CED285116D9E2F300A20917 /* BugFixScene.cpp */; };
 		3CEEB6EC16DB273E0066B0B7 /* FlipAnimScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEEB6EA16DB273E0066B0B7 /* FlipAnimScene.cpp */; };
+		3CF2D88117166DBD00FDAD27 /* ReplaceAnimSpriteScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF2D88017166DBD00FDAD27 /* ReplaceAnimSpriteScene.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -664,6 +665,8 @@
 		3CED285116D9E2F300A20917 /* BugFixScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BugFixScene.cpp; path = Classes/BugFixScene.cpp; sourceTree = "<group>"; };
 		3CEEB6EA16DB273E0066B0B7 /* FlipAnimScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FlipAnimScene.cpp; path = Classes/FlipAnimScene.cpp; sourceTree = "<group>"; };
 		3CEEB6EB16DB273E0066B0B7 /* FlipAnimScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlipAnimScene.h; path = Classes/FlipAnimScene.h; sourceTree = "<group>"; };
+		3CF2D87F17166D9A00FDAD27 /* ReplaceAnimSpriteScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ReplaceAnimSpriteScene.h; path = Classes/ReplaceAnimSpriteScene.h; sourceTree = "<group>"; };
+		3CF2D88017166DBD00FDAD27 /* ReplaceAnimSpriteScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ReplaceAnimSpriteScene.cpp; path = Classes/ReplaceAnimSpriteScene.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1566,6 +1569,8 @@
 				3CED284B16D9D5E200A20917 /* TouchedAnimScene.cpp */,
 				3CED285016D9E2E600A20917 /* BugFixScene.h */,
 				3CED285116D9E2F300A20917 /* BugFixScene.cpp */,
+				3CF2D87F17166D9A00FDAD27 /* ReplaceAnimSpriteScene.h */,
+				3CF2D88017166DBD00FDAD27 /* ReplaceAnimSpriteScene.cpp */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1854,6 +1859,7 @@
 				3CED284C16D9D5E200A20917 /* TouchedAnimScene.cpp in Sources */,
 				3CED285216D9E2F300A20917 /* BugFixScene.cpp in Sources */,
 				3CEEB6EC16DB273E0066B0B7 /* FlipAnimScene.cpp in Sources */,
+				3CF2D88117166DBD00FDAD27 /* ReplaceAnimSpriteScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

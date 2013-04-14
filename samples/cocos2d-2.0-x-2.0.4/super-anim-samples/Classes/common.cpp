@@ -15,6 +15,7 @@ std::string gTestEntryNames[kTestEntryCnt] = {
 	"Use Sprite Sheet",
 	"Flip Animatiion",
 	"Touch Event in Animation",
+	"Replace animation sprite",
 	"Bug Fix"
 };
 
@@ -35,6 +36,25 @@ const char* SAM_FISH_50 = "fish_50/fish.sam";
 const char* SAM_FISH_150 = "fish_150/fish.sam";
 const char* SAM_FRAME_BY_FRAME = "frame_by_frame/frame-by-frame.sam";
 const char* SAM_NO_FLICKER = "no-flicker/no-flicker.sam";
+// for rename sprite feature
+const char* SAM_RENAME_NORMAL = "rename_sprite/normal/attack_front.sam";
+const char* SAM_RENAME_1  = "rename_sprite/rename-1/attack_front.sam";
+const char* SPRITE_RENAME_1_SWORD_ORIGIN = "rename_sprite/rename-1/sword.png";
+const char* SPRITE_RENAME_1_SWORD_NEW = "rename_sprite/rename-1/sword_new.png";
+const char* SAM_RENAME_ALL = "rename_sprite/rename-all/fadein-tap.sam";
+const char* SPRITE_RENAME_ALL_1_ORIGIN = "rename_sprite/rename-all/_1.png";
+const char* SPRITE_RENAME_ALL_2_ORIGIN = "rename_sprite/rename-all/_2.png";
+const char* SPRITE_RENAME_ALL_3_ORIGIN = "rename_sprite/rename-all/_3.png";
+const char* SPRITE_RENAME_ALL_1_NEW = "rename_sprite/rename-all/_1_new.png";
+const char* SPRITE_RENAME_ALL_2_NEW = "rename_sprite/rename-all/_2_new.png";
+const char* SPRITE_RENAME_ALL_3_NEW = "rename_sprite/rename-all/_3_new.png";
+const char* SAM_RENAME_RESIZE = "rename_sprite/rename-resize/attack_front.sam";
+const char* SPRITE_RENAME_RESIZE_HAT_HEAD_ORIGIN = "rename_sprite/rename-resize/hat_head.png";
+const char* SPRITE_RENAME_RESIZE_HAT_HEAD_NEW = "rename_sprite/rename-resize/hat_head_new.png";
+const char* SAM_RENAME_SPRITESHEET = "rename_sprite/rename-spritesheet/attack_front.sam";
+const char* SPRITE_RENAME_SPRITESHEET_HAT_HEAD_ORIGIN = "rename_sprite/rename-spritesheet/hat_head.png";
+const char* SPRITE_RENAME_SPRITESHEET_HAT_HEAD_NEW = "rename_sprite/rename-spritesheet/hat_head_new.png";
+
 
 HUDLayer::HUDLayer(){
 	for (int i = 0; i < kHUDLayerButtonCnt; i++) {
