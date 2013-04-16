@@ -39,6 +39,7 @@ namespace SuperAnim {
 	public:
 		CCTexture2D *mTexture;
 		ccV3F_C4B_T2F_Quad mQuad;
+		std::string mStringId;
 	public:
 		SuperAnimSprite();
 		SuperAnimSprite(CCTexture2D *theTexture);
@@ -53,6 +54,7 @@ namespace SuperAnim {
 	class SuperAnimSpriteMgr
 	{
 		IdToSuperAnimSpriteMap mSuperAnimSpriteMap;
+		IdToSuperAnimSpriteMap::const_iterator mSuperAnimSpriteIterator;
 	private:
 		SuperAnimSpriteMgr();
 		~SuperAnimSpriteMgr();
@@ -63,6 +65,8 @@ namespace SuperAnim {
 		SuperAnimSpriteId LoadSuperAnimSprite(std::string theSpriteName);
 		void UnloadSuperSprite(SuperAnimSpriteId theSpriteId);
 		SuperAnimSprite * GetSpriteById(SuperAnimSpriteId theSpriteId);
+		void BeginIterateSpriteId();
+		bool IterateSpriteId(SuperAnimSpriteId &theCurSpriteId);
 	};
 }
 
@@ -209,6 +213,20 @@ void SuperAnimSpriteMgr::DestroyInstance()
 	}
 }
 
+void SuperAnimSpriteMgr::BeginIterateSpriteId(){
+	mSuperAnimSpriteIterator = mSuperAnimSpriteMap.begin();
+}
+bool SuperAnimSpriteMgr::IterateSpriteId(SuperAnimSpriteId &theCurSpriteId){
+	if (mSuperAnimSpriteIterator == mSuperAnimSpriteMap.end()) {
+		theCurSpriteId = InvalidSuperAnimSpriteId;
+		return false;
+	}
+	
+	theCurSpriteId = mSuperAnimSpriteIterator->first;
+	mSuperAnimSpriteIterator++;
+	return true;
+}
+
 CCTexture2D* getTexture(std::string theImageFullPath, CCRect& theTextureRect){
 	// try to load from sprite sheet
 	std::string anImageFileName;
@@ -227,7 +245,7 @@ CCTexture2D* getTexture(std::string theImageFullPath, CCRect& theTextureRect){
 	CCTexture2D* aTexture = CCTextureCache::sharedTextureCache()->addImage(theImageFullPath.c_str());
 	theTextureRect.origin = CCPointZero;
 	theTextureRect.size = aTexture->getContentSize();
-	return CCTextureCache::sharedTextureCache()->addImage(theImageFullPath.c_str());
+	return aTexture;
 }
 
 
@@ -235,10 +253,13 @@ CCTexture2D* getTexture(std::string theImageFullPath, CCRect& theTextureRect){
 SuperAnimSpriteId SuperAnimSpriteMgr::LoadSuperAnimSprite(std::string theSpriteName)
 {
 	// already load the sprite ?
-	IdToSuperAnimSpriteMap::iterator anItr = mSuperAnimSpriteMap.find(theSpriteName);
-	if (anItr != mSuperAnimSpriteMap.end())
+	IdToSuperAnimSpriteMap::iterator anItr = mSuperAnimSpriteMap.begin();
+	while (anItr != mSuperAnimSpriteMap.end())
 	{
-		return anItr->first;
+		if (anItr->second->mStringId == theSpriteName) {
+			return anItr->first;
+		}
+		anItr++;
 	}
 	
 	std::string anImageFileName;
@@ -270,7 +291,8 @@ SuperAnimSpriteId SuperAnimSpriteMgr::LoadSuperAnimSprite(std::string theSpriteN
 	// create new super animation sprite
 	SuperAnimSprite *aSuperAnimSprite = new SuperAnimSprite(aTexture, aTextureRect);
 	// use the sprite name as the key
-	SuperAnimSpriteId anId = theSpriteName;
+	aSuperAnimSprite->mStringId = theSpriteName;
+	SuperAnimSpriteId anId = aSuperAnimSprite;
 	mSuperAnimSpriteMap[anId] = aSuperAnimSprite;
 	
 	return anId;
@@ -320,6 +342,11 @@ SuperAnimNode::SuperAnimNode()
 SuperAnimNode::~SuperAnimNode()
 {
 	tryUnloadSpirteSheet();
+	while (mReplacedSpriteMap.size() > 0) {
+		SuperSpriteIdToSuperSpriteIdMap::iterator anIter = mReplacedSpriteMap.begin();
+		SuperAnimSpriteMgr::GetInstance()->UnloadSuperSprite(anIter->second);
+		mReplacedSpriteMap.erase(anIter);
+	}
 }
 
 
@@ -454,11 +481,24 @@ void SuperAnimNode::draw()
 			CCAssert(false, "Missing a sprite.");
 			continue;
 		}
+		
+		// check whether this sprite has been replaced
+		SuperAnimSpriteId aCurSpriteId = sAnimObjDrawnInfo.mSpriteId;
+		SuperSpriteIdToSuperSpriteIdMap::const_iterator anIter = mReplacedSpriteMap.find(aCurSpriteId);
+		if (anIter != mReplacedSpriteMap.end()) {
+			aCurSpriteId = anIter->second;
+		}
 			
-		SuperAnimSprite *aSprite = SuperAnimSpriteMgr::GetInstance()->GetSpriteById(sAnimObjDrawnInfo.mSpriteId);
+		//SuperAnimSprite *aSprite = SuperAnimSpriteMgr::GetInstance()->GetSpriteById(aCurSpriteId);
+		SuperAnimSprite *aSprite = (SuperAnimSprite*)aCurSpriteId;
 		if (aSprite == NULL){
 			CCAssert(false, "Missing a sprite.");
 			continue;
+		}
+		
+		// safe check!!
+		if (mUseSpriteSheet) {
+			CCAssert(mSpriteSheet == aSprite->mTexture, "must in the same texture!!");
 		}
 		
 		// cocos2d the origin is located at left bottom, but is in left top in flash
@@ -651,6 +691,49 @@ int SuperAnimNode::GetCurFrame(){
 
 std::string SuperAnimNode::GetCurSectionName(){
 	return mAnimHandler.mCurLabel;
+}
+
+void SuperAnimNode::replaceSprite(std::string theOriginSpriteName, std::string theNewSpriteName){
+	SuperAnimSpriteId anOriginSpriteId = InvalidSuperAnimSpriteId;
+	SuperAnimSpriteId aCurSpriteId;
+	SuperAnimSpriteMgr::GetInstance()->BeginIterateSpriteId();
+	while (SuperAnimSpriteMgr::GetInstance()->IterateSpriteId(aCurSpriteId)) {
+		SuperAnimSprite* aSuperAnimSprite = (SuperAnimSprite*)aCurSpriteId;
+		std::string aSpriteFullPath = aSuperAnimSprite->mStringId;
+		if (aSpriteFullPath.substr(aSpriteFullPath.length() - theOriginSpriteName.length()) == theOriginSpriteName) {
+			anOriginSpriteId = aCurSpriteId;
+			break;
+		}
+	}
+	
+	if (anOriginSpriteId != InvalidSuperAnimSpriteId) {
+		SuperAnimSpriteId aNewSpriteId = SuperAnimSpriteMgr::GetInstance()->LoadSuperAnimSprite(CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(theNewSpriteName.c_str()));
+		CCAssert(aNewSpriteId != InvalidSuperAnimSpriteId, "failed to create super anim sprite");
+		mReplacedSpriteMap[anOriginSpriteId] = aNewSpriteId;
+	} else{
+		CCAssert(false, "Original sprite should exist.");
+	}
+}
+void SuperAnimNode::resumeSprite(std::string theOriginSpriteName){
+	SuperAnimSpriteId anOriginSpriteId = InvalidSuperAnimSpriteId;
+	SuperAnimSpriteId aCurSpriteId;
+	SuperAnimSpriteMgr::GetInstance()->BeginIterateSpriteId();
+	while (SuperAnimSpriteMgr::GetInstance()->IterateSpriteId(aCurSpriteId)) {
+		SuperAnimSprite* aSuperAnimSprite = (SuperAnimSprite*)aCurSpriteId;
+		std::string aSpriteFullPath = aSuperAnimSprite->mStringId;
+		if (aSpriteFullPath.substr(aSpriteFullPath.length() - theOriginSpriteName.length()) == theOriginSpriteName) {
+			anOriginSpriteId = aCurSpriteId;
+			break;
+		}
+	}
+	if (anOriginSpriteId != InvalidSuperAnimSpriteId) {
+		SuperSpriteIdToSuperSpriteIdMap::iterator anIter = mReplacedSpriteMap.find(anOriginSpriteId);
+		if (anIter != mReplacedSpriteMap.end()) {
+			// unload the replaced sprite
+			SuperAnimSpriteMgr::GetInstance()->UnloadSuperSprite(anIter->second);
+			mReplacedSpriteMap.erase(anIter);
+		}
+	}
 }
 
 bool SuperAnim::LoadAnimFileExt(std::string theAbsAnimFile){

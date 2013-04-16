@@ -19,6 +19,7 @@ enum TestEntry {
 	kTestEntrySpritesheetAnim,
 	kTestEntryFlipAnim,
 	kTestEntryTouchedAnim,
+	kTestEntryReplaceAnimSprite,
 	kTestEntryBugFix,
 	
 	// keep last
@@ -37,6 +38,24 @@ extern const char* SAM_FISH_50;
 extern const char* SAM_FISH_150;
 extern const char* SAM_FRAME_BY_FRAME;
 extern const char* SAM_NO_FLICKER;
+// for rename sprite feature
+extern const char* SAM_RENAME_NORMAL;
+extern const char* SAM_RENAME_1;
+extern const char* SPRITE_RENAME_1_SWORD_ORIGIN;
+extern const char* SPRITE_RENAME_1_SWORD_NEW;
+extern const char* SAM_RENAME_ALL;
+extern const char* SPRITE_RENAME_ALL_1_ORIGIN;
+extern const char* SPRITE_RENAME_ALL_2_ORIGIN;
+extern const char* SPRITE_RENAME_ALL_3_ORIGIN;
+extern const char* SPRITE_RENAME_ALL_1_NEW;
+extern const char* SPRITE_RENAME_ALL_2_NEW;
+extern const char* SPRITE_RENAME_ALL_3_NEW;
+extern const char* SAM_RENAME_RESIZE;
+extern const char* SPRITE_RENAME_RESIZE_HAT_HEAD_ORIGIN;
+extern const char* SPRITE_RENAME_RESIZE_HAT_HEAD_NEW;
+extern const char* SAM_RENAME_SPRITESHEET;
+extern const char* SPRITE_RENAME_SPRITESHEET_HAT_HEAD_ORIGIN;
+extern const char* SPRITE_RENAME_SPRITESHEET_HAT_HEAD_NEW;
 
 enum HUDLayerButton{
 	kHUDLayerButtonPre = 0,

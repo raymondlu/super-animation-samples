@@ -14,7 +14,7 @@
 #include "TouchedAnimScene.h"
 #include "BugFixScene.h"
 #include "FlipAnimScene.h"
-
+#include "ReplaceAnimSpriteScene.h"
 
 CCScene* MainMenuScene::scene(){
 	CCScene* aScene = CCScene::create();
@@ -113,5 +113,8 @@ void MainMenuScene::onEntry(CCObject* theSender){
 	}
 	if (aSelectedEntry == kTestEntryFlipAnim) {
 		CCDirector::sharedDirector()->replaceScene(FlipAnimScene::scene());
+	}
+	if (aSelectedEntry == kTestEntryReplaceAnimSprite) {
+		CCDirector::sharedDirector()->replaceScene(ReplaceAnimSpriteScene::scene());
 	}
 }

@@ -52,6 +52,10 @@ namespace SuperAnim
 		bool mIsFlipX;
 		bool mIsFlipY;
 		float mSpeedFactor;
+		
+		
+		typedef std::map<SuperAnimSpriteId, SuperAnimSpriteId> SuperSpriteIdToSuperSpriteIdMap;
+		SuperSpriteIdToSuperSpriteIdMap mReplacedSpriteMap;
 	public:
 		SuperAnimNode();
 		~SuperAnimNode();
@@ -72,6 +76,10 @@ namespace SuperAnim
 		std::string GetCurSectionName();
 		bool HasSection(std::string theLabelName);
 		void setSpeedFactor(float theNewSpeedFactor);
+		
+		// for replaceable sprite
+		void replaceSprite(std::string theOriginSpriteName, std::string theNewSpriteName);
+		void resumeSprite(std::string theOriginSpriteName);
 	private:
 		// support sprite sheet
 		void tryLoadSpriteSheet();
