@@ -657,7 +657,7 @@ bool SuperAnimNode::PlaySection(std::string theLabel)
 	
 	if (PlayBySection(mAnimHandler, theLabel)){
 		mAnimState = kAnimStatePlaying;
-		CCDirector::sharedDirector()->setNextDeltaTimeZero(true);
+		//CCDirector::sharedDirector()->setNextDeltaTimeZero(true);
 		return true;
 	}
 

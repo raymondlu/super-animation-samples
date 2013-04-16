@@ -333,6 +333,7 @@ namespace SuperAnim {
 			// Check whether reach a new label frame
 			bool aIsNewLabel = false;
 			if (aCurFrame >= theMainDefHandler.mLastFrameNumOfCurLabel) {
+				theMainDefHandler.mCurFrameNum = theMainDefHandler.mLastFrameNumOfCurLabel;
 				aIsNewLabel = true;
 			}
 			

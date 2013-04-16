@@ -306,7 +306,7 @@ bool ReplaceAnimSpriteScene::init(){
 	addChild(CCLayerColor::create(ccc4(128, 128, 128, 255)));
 	
 	mHUD = HUDLayer::create(this);
-	mHUD->mTitle->setString(getTestEntryName(kTestEntryBugFix).c_str());
+	mHUD->mTitle->setString(getTestEntryName(kTestEntryReplaceAnimSprite).c_str());
 	addChild(mHUD, 1);
 	
 	changeLayer(kReplaceAnimSpriteLayerNormal);

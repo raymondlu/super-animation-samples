@@ -34,6 +34,7 @@ New Features
 * Support resize animation, you can resize one animation to different size to support multiple resolution
 * Support set flip x&y for animation
 * Support rename animation sprite name
+* Support replace animation sprite at runtime
 
 Contact Me
 ------------------

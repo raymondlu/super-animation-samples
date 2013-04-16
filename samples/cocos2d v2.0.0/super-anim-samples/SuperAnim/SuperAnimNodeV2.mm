@@ -670,7 +670,7 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 	
 	if (PlayBySection(anAnimHandler, aCString)){
 		mAnimState = kAnimStatePlaying;
-		[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
+		//[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 		return YES;
 	}
 	
