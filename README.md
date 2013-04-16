@@ -33,6 +33,7 @@ New Features
 * Support sprite sheet, which means you can use TexturePacker to pack some small images into one big images
 * Support resize animation, you can resize one animation to different size to support multiple resolution
 * Support set flip x&y for animation
+* Support rename animation sprite name
 
 Contact Me
 ------------------
