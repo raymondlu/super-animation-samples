@@ -36,6 +36,7 @@
 	int mId;
 	id<SuperAnimNodeListener> mListener;
 	void *mAnimHandler;
+	void *mReplacedSpriteMap;
 	int mAnimState;
 	// support sprite sheet
 	NSString* mSpriteSheetFileFullPath;
@@ -61,6 +62,10 @@
 -(int) GetCurFrame;
 -(NSString*) GetCurSectionName;
 -(BOOL) HasSection:(NSString*) theLabelName;
+// for replaceable sprite
+-(void) replaceSprite:(NSString*) theOriginSpriteName newSpriteName:(NSString*) theNewSpriteName;
+-(void) resumeSprite:(NSString*) theOriginSpriteName;
+
 // support sprite sheet
 -(void) tryLoadSpriteSheet;
 -(void) tryUnloadSpirteSheet;

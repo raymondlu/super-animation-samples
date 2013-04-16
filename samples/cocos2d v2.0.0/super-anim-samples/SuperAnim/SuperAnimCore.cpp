@@ -335,7 +335,7 @@ namespace SuperAnim {
 			if (aCurFrame >= theMainDefHandler.mLastFrameNumOfCurLabel) {
 				aIsNewLabel = true;
 			}
-
+			
 			hitNewLabel = aIsNewLabel;
 		}
 	}
@@ -561,30 +561,18 @@ namespace SuperAnim {
 		if (aLastSlash != std::string::npos){
 			aCurDir = theSuperAnimFile.substr(0, aLastSlash);
 		}
-		
-		FILE *aFile = fopen(aFullPath.c_str(), "rb");
-		if (aFile == NULL)
-		{
-			assert(false && "Can't open animation file.");
-			return false;
-		}
-		
-		fseek(aFile, 0, SEEK_END);
-		unsigned long aFileSize = ftell(aFile);
-		fseek(aFile, 0, SEEK_SET);
-		unsigned char *aFileBuffer = new unsigned char[aFileSize];
+
+		unsigned long aFileSize = 0;
+		unsigned char *aFileBuffer = GetFileData(aFullPath.c_str(), "rb", &aFileSize);
 		if (aFileBuffer == NULL)
 		{
 			assert(false && "Cannot allocate memory.");
 			return false;
 		}
-		aFileSize = fread(aFileBuffer, sizeof(unsigned char), aFileSize, aFile);
-		fclose(aFile);
 		BufferReader aBuffer;
 		aBuffer.SetData(aFileBuffer, aFileSize);
 		// free memory
 		delete[] aFileBuffer;
-		aFileBuffer = NULL;
 		
 		if (aBuffer.ReadLong() != 0x2E53414D)
 		{

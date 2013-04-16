@@ -20,6 +20,10 @@ const char* SAM_FISH = "fish/fish.sam";
 const char* SAM_FISH_SPRITESHEET = "fish_spritesheet/fish.sam";
 const char* SAM_FISH_50 = "fish_50/fish.sam";
 const char* SAM_FISH_150 = "fish_150/fish.sam";
+const char* SAM_RENAME_SPRITESHEET = "rename_sprite/rename-spritesheet/attack_front.sam";
+const char* SPRITE_RENAME_SPRITESHEET_HAT_HEAD_ORIGIN = "rename_sprite/rename-spritesheet/hat_head.png";
+const char* SPRITE_RENAME_SPRITESHEET_HAT_HEAD_NEW = "rename_sprite/rename-spritesheet/hat_head_new.png";
+
 
 #pragma mark - HelloWorldLayer
 
@@ -54,12 +58,14 @@ const char* SAM_FISH_150 = "fish_150/fish.sam";
 		CCLayerColor* aBg = [CCLayerColor layerWithColor:ccc4(128, 128, 128, 255)];
 		[self addChild: aBg];
 		
-		NSString* anAnimFileFullPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:[NSString stringWithCString:SAM_FISH_SPRITESHEET encoding:NSUTF8StringEncoding]];
+		NSString* anAnimFileFullPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:[NSString stringWithCString:SAM_RENAME_SPRITESHEET encoding:NSUTF8StringEncoding]];
 		
 		mAnimNode = [SuperAnimNode create:anAnimFileFullPath id:0 listener:self];
 		[self addChild:mAnimNode];
 		mAnimNode.position = ccp(size.width * 0.5f, size.height * 0.5f);
-		[mAnimNode PlaySection:@"idle"];
+		[mAnimNode PlaySection:@"attack"];
+		
+		[self registerWithTouchDispatcher];
 
 	}
 	return self;
@@ -76,12 +82,26 @@ const char* SAM_FISH_150 = "fish_150/fish.sam";
 	[super dealloc];
 }
 
-- (void) OnAnimSectionEnd:(int)theId label:(NSString *)theLabelName{
-	if ([theLabelName compare:@"idle"] == NSOrderedSame) {
-		[mAnimNode PlaySection:@"active"];
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+	static BOOL toReplaceSprite = NO;
+	
+	toReplaceSprite = !toReplaceSprite;
+	if (toReplaceSprite) {
+		NSString* anOriginSpriteName = [NSString stringWithCString:SPRITE_RENAME_SPRITESHEET_HAT_HEAD_ORIGIN encoding:NSUTF8StringEncoding];
+		NSString* aNewSpriteName = [NSString stringWithCString:SPRITE_RENAME_SPRITESHEET_HAT_HEAD_NEW encoding:NSUTF8StringEncoding];
+		
+		[mAnimNode replaceSprite:anOriginSpriteName newSpriteName:aNewSpriteName];
 	}
-	if ([theLabelName compare:@"active"] == NSOrderedSame) {
-		[mAnimNode PlaySection:@"idle"];
+	
+	if (!toReplaceSprite) {
+		NSString* anOriginSpriteName = [NSString stringWithCString:SPRITE_RENAME_SPRITESHEET_HAT_HEAD_ORIGIN encoding:NSUTF8StringEncoding];
+		[mAnimNode resumeSprite:anOriginSpriteName];
+	}
+}
+
+- (void) OnAnimSectionEnd:(int)theId label:(NSString *)theLabelName{
+	if ([theLabelName compare:@"attack"] == NSOrderedSame) {
+		[mAnimNode PlaySection:@"attack"];
 	}
 }
 @end
