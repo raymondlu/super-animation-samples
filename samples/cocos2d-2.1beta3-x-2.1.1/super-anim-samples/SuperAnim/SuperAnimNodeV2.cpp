@@ -627,6 +627,20 @@ void SuperAnimNode::update(float dt)
 	mAnimHandler.mAnimRate *= mSpeedFactor;
 	IncAnimFrameNum(mAnimHandler, dt, isNewLabel);
 	mAnimHandler.mAnimRate = anOriginFrameRate;
+	
+	float aTimeFactor = (mAnimHandler.mCurFrameNum - mAnimHandler.mFirstFrameNumOfCurLabel) / (float)(mAnimHandler.mLastFrameNumOfCurLabel - mAnimHandler.mFirstFrameNumOfCurLabel);
+	for (TimeEventInfoArray::iterator anIter = mCurTimeEventInfoArray.begin(); anIter != mCurTimeEventInfoArray.end(); anIter++) {
+		if (aTimeFactor >= anIter->mTimeFactor) {
+			// trigger time event
+			CCLog("Trigger anim time event: %d, %s, %d", mId, anIter->mLabelName.c_str(), anIter->mEventId);
+			if (mListener) {
+				mListener->OnTimeEvent(mId, anIter->mLabelName, anIter->mEventId);
+			}
+			mCurTimeEventInfoArray.erase(anIter);
+			break;
+		}
+	}
+	
 	if (isNewLabel && mListener)
 	{
 		mListener->OnAnimSectionEnd(mId, mAnimHandler.mCurLabel);
@@ -658,6 +672,14 @@ bool SuperAnimNode::PlaySection(std::string theLabel)
 	if (PlayBySection(mAnimHandler, theLabel)){
 		mAnimState = kAnimStatePlaying;
 		//CCDirector::sharedDirector()->setNextDeltaTimeZero(true);
+		
+		// set time event info for this run
+		mCurTimeEventInfoArray.clear();
+		LabelNameToTimeEventInfoArrayMap::const_iterator anIter = mLabelNameToTimeEventInfoArrayMap.find(theLabel);
+		if (anIter != mLabelNameToTimeEventInfoArrayMap.end()) {
+			mCurTimeEventInfoArray.insert(mCurTimeEventInfoArray.begin(), anIter->second.begin(), anIter->second.end());
+		}
+		
 		return true;
 	}
 
@@ -732,6 +754,44 @@ void SuperAnimNode::resumeSprite(std::string theOriginSpriteName){
 			// unload the replaced sprite
 			SuperAnimSpriteMgr::GetInstance()->UnloadSuperSprite(anIter->second);
 			mReplacedSpriteMap.erase(anIter);
+		}
+	}
+}
+
+// for time event
+void SuperAnimNode::registerTimeEvent(std::string theLabel, float theTimeFactor, int theEventId){
+	if (HasSection(theLabel) == false) {
+		CCAssert(false, "Label not existed.");
+		return;
+	}
+	
+	theTimeFactor = clampf(theTimeFactor, 0.0f, 1.0f);
+	TimeEventInfo aTimeEventInfo = {theLabel, theTimeFactor, theEventId};
+	TimeEventInfoArray &aTimeEventInfoArray = mLabelNameToTimeEventInfoArrayMap[theLabel];
+	aTimeEventInfoArray.push_back(aTimeEventInfo);
+}
+void SuperAnimNode::removeTimeEvent(std::string theLabel, int theEventId){
+	if (HasSection(theLabel) == false) {
+		CCAssert(false, "Label not existed.");
+		return;
+	}
+	LabelNameToTimeEventInfoArrayMap::iterator anIter = mLabelNameToTimeEventInfoArrayMap.find(theLabel);
+	if (anIter != mLabelNameToTimeEventInfoArrayMap.end()) {
+		TimeEventInfoArray &aTimeEventInfoArray = anIter->second;
+		for (TimeEventInfoArray::iterator i = aTimeEventInfoArray.begin(); i != aTimeEventInfoArray.end(); i++) {
+			if (i->mEventId == theEventId) {
+				aTimeEventInfoArray.erase(i);
+				break;
+			}
+		}
+	}
+	
+	// also remove in the current time event info array
+	for (TimeEventInfoArray::iterator i = mCurTimeEventInfoArray.begin(); i != mCurTimeEventInfoArray.end(); i++) {
+		if (i->mLabelName == theLabel &&\
+			i->mEventId == theEventId) {
+			mCurTimeEventInfoArray.erase(i);
+			break;
 		}
 	}
 }

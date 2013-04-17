@@ -367,6 +367,7 @@ namespace SuperAnim {
 			{
 				theHandler.mCurFrameNum = it->mStartFrameNum;
 				theHandler.mCurLabel = theLabelName;
+				theHandler.mFirstFrameNumOfCurLabel = it->mStartFrameNum;
 				theHandler.mLastFrameNumOfCurLabel = it->mEndFrameNum;
 				theHandler.mIsHandlerValid = true;
 				return true;

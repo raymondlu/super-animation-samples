@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3CEEB6E516DB24380066B0B7 /* FlipAnimScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEEB6E416DB24380066B0B7 /* FlipAnimScene.cpp */; };
 		3CF4FA66171D67FD00A1B368 /* ReplaceAnimSpriteScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF4FA64171D67FD00A1B368 /* ReplaceAnimSpriteScene.cpp */; };
+		3CF55B74171E57A800060307 /* TimeEventScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF55B73171E57A800060307 /* TimeEventScene.cpp */; };
 		3CFA070D16D9EEFB00E0E235 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFA070C16D9EEFB00E0E235 /* QuartzCore.framework */; };
 		3CFA070F16D9EEFB00E0E235 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFA070E16D9EEFB00E0E235 /* OpenGLES.framework */; };
 		3CFA071116D9EEFB00E0E235 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFA071016D9EEFB00E0E235 /* OpenAL.framework */; };
@@ -228,6 +229,8 @@
 		3CEEB6E416DB24380066B0B7 /* FlipAnimScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FlipAnimScene.cpp; path = Classes/FlipAnimScene.cpp; sourceTree = "<group>"; };
 		3CF4FA64171D67FD00A1B368 /* ReplaceAnimSpriteScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ReplaceAnimSpriteScene.cpp; path = Classes/ReplaceAnimSpriteScene.cpp; sourceTree = "<group>"; };
 		3CF4FA65171D67FD00A1B368 /* ReplaceAnimSpriteScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReplaceAnimSpriteScene.h; path = Classes/ReplaceAnimSpriteScene.h; sourceTree = "<group>"; };
+		3CF55B72171E579700060307 /* TimeEventScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TimeEventScene.h; path = Classes/TimeEventScene.h; sourceTree = "<group>"; };
+		3CF55B73171E57A800060307 /* TimeEventScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimeEventScene.cpp; path = Classes/TimeEventScene.cpp; sourceTree = "<group>"; };
 		3CFA070816D9EEFB00E0E235 /* super-anim-samples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "super-anim-samples.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CFA070C16D9EEFB00E0E235 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3CFA070E16D9EEFB00E0E235 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1647,6 +1650,8 @@
 				3CFA09C816D9EF0100E0E235 /* AppDelegate.cpp */,
 				3CEEB6E216DB24260066B0B7 /* FlipAnimScene.h */,
 				3CEEB6E416DB24380066B0B7 /* FlipAnimScene.cpp */,
+				3CF55B72171E579700060307 /* TimeEventScene.h */,
+				3CF55B73171E57A800060307 /* TimeEventScene.cpp */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1944,6 +1949,7 @@
 				3CFA09FA16D9F04400E0E235 /* TouchedAnimScene.cpp in Sources */,
 				3CEEB6E516DB24380066B0B7 /* FlipAnimScene.cpp in Sources */,
 				3CF4FA66171D67FD00A1B368 /* ReplaceAnimSpriteScene.cpp in Sources */,
+				3CF55B74171E57A800060307 /* TimeEventScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,6 +15,7 @@
 #include "BugFixScene.h"
 #include "FlipAnimScene.h"
 #include "ReplaceAnimSpriteScene.h"
+#include "TimeEventScene.h"
 
 CCScene* MainMenuScene::scene(){
 	CCScene* aScene = CCScene::create();
@@ -116,5 +117,8 @@ void MainMenuScene::onEntry(CCObject* theSender){
 	}
 	if (aSelectedEntry == kTestEntryReplaceAnimSprite) {
 		CCDirector::sharedDirector()->replaceScene(ReplaceAnimSpriteScene::scene());
+	}
+	if (aSelectedEntry == kTestEntryTimeEvent) {
+		CCDirector::sharedDirector()->replaceScene(TimeEventScene::scene());
 	}
 }

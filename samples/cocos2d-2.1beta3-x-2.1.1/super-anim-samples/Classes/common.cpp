@@ -14,8 +14,9 @@ std::string gTestEntryNames[kTestEntryCnt] = {
 	"Resized Animation",
 	"Use Sprite Sheet",
 	"Flip Animatiion",
-	"Touch Event in Animation",
 	"Replace animation sprite",
+	"Time Event",
+	"Touch Event",
 	"Bug Fix"
 };
 

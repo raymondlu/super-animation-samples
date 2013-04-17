@@ -37,6 +37,7 @@ namespace SuperAnim
 	{
 	public:
 		virtual void OnAnimSectionEnd(int theId, std::string theLabelName){}
+		virtual void OnTimeEvent(int theId, std::string theLabelName, int theEventId){}
 	};
 	class SuperAnimNode : public CCNode
 	{
@@ -56,6 +57,17 @@ namespace SuperAnim
 		
 		typedef std::map<SuperAnimSpriteId, SuperAnimSpriteId> SuperSpriteIdToSuperSpriteIdMap;
 		SuperSpriteIdToSuperSpriteIdMap mReplacedSpriteMap;
+		
+		// for time event
+		struct TimeEventInfo{
+			std::string mLabelName;
+			float mTimeFactor;
+			int mEventId;
+		};
+		typedef std::vector<TimeEventInfo> TimeEventInfoArray;
+		typedef std::map<std::string, TimeEventInfoArray> LabelNameToTimeEventInfoArrayMap;
+		LabelNameToTimeEventInfoArrayMap mLabelNameToTimeEventInfoArrayMap;
+		TimeEventInfoArray mCurTimeEventInfoArray;
 	public:
 		SuperAnimNode();
 		~SuperAnimNode();
@@ -80,6 +92,13 @@ namespace SuperAnim
 		// for replaceable sprite
 		void replaceSprite(std::string theOriginSpriteName, std::string theNewSpriteName);
 		void resumeSprite(std::string theOriginSpriteName);
+		
+		// for time event
+		// theTimeFactor is in [0.0f, 1.0f],
+		// theTimeFactor = 0.0f means the event will be triggered at the first frame,
+		// theTimeFactor = 1.0f means the event will be triggered at the last frame
+		void registerTimeEvent(std::string theLabel, float theTimeFactor, int theEventId);
+		void removeTimeEvent(std::string theLabel, int theEventId);
 	private:
 		// support sprite sheet
 		void tryLoadSpriteSheet();
