@@ -636,8 +636,16 @@ void SuperAnimNode::update(float dt)
 			if (mListener) {
 				mListener->OnTimeEvent(mId, anIter->mLabelName, anIter->mEventId);
 			}
-			mCurTimeEventInfoArray.erase(anIter);
 			break;
+		}
+	}
+	
+	// remove obsolete time event
+	for (TimeEventInfoArray::iterator anIter = mCurTimeEventInfoArray.begin(); anIter != mCurTimeEventInfoArray.end();) {
+		if (aTimeFactor >= anIter->mTimeFactor) {
+			anIter = mCurTimeEventInfoArray.erase(anIter);
+		} else {
+			anIter++;
 		}
 	}
 	
