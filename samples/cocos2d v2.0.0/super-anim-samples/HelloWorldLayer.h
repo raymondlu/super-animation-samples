@@ -12,7 +12,15 @@
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer <SuperAnimNodeListener>
 {
-	SuperAnimNode* mAnimNode;
+	enum AnimId{
+		kAnimAttacker = 0,
+		kAnimAttacked,
+		
+		// keep last
+		kAnimIdCnt
+	};
+	
+	SuperAnimNode* mAnimNode[kAnimIdCnt];
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

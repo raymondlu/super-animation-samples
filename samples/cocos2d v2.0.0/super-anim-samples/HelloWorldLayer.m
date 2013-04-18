@@ -23,7 +23,7 @@ const char* SAM_FISH_150 = "fish_150/fish.sam";
 const char* SAM_RENAME_SPRITESHEET = "rename_sprite/rename-spritesheet/attack_front.sam";
 const char* SPRITE_RENAME_SPRITESHEET_HAT_HEAD_ORIGIN = "rename_sprite/rename-spritesheet/hat_head.png";
 const char* SPRITE_RENAME_SPRITESHEET_HAT_HEAD_NEW = "rename_sprite/rename-spritesheet/hat_head_new.png";
-
+const char* SAM_NO_FLICKER = "no-flicker/no-flicker.sam";
 
 #pragma mark - HelloWorldLayer
 
@@ -55,15 +55,24 @@ const char* SPRITE_RENAME_SPRITESHEET_HAT_HEAD_NEW = "rename_sprite/rename-sprit
 
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
-		CCLayerColor* aBg = [CCLayerColor layerWithColor:ccc4(128, 128, 128, 255)];
+		CCLayerColor* aBg = [CCLayerColor layerWithColor:ccc4(128, 128, 255, 255)];
 		[self addChild: aBg];
 		
-		NSString* anAnimFileFullPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:[NSString stringWithCString:SAM_RENAME_SPRITESHEET encoding:NSUTF8StringEncoding]];
+		NSString* anAnimFileFullPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:[NSString stringWithCString:SAM_NO_FLICKER encoding:NSUTF8StringEncoding]];
 		
-		mAnimNode = [SuperAnimNode create:anAnimFileFullPath id:0 listener:self];
-		[self addChild:mAnimNode];
-		mAnimNode.position = ccp(size.width * 0.5f, size.height * 0.5f);
-		[mAnimNode PlaySection:@"attack"];
+		mAnimNode[kAnimAttacker] = [SuperAnimNode create:anAnimFileFullPath id:kAnimAttacker listener:self];
+		[self addChild:mAnimNode[kAnimAttacker]];
+		mAnimNode[kAnimAttacker].position = ccp(size.width * 0.25f, size.height * 0.5f);
+		[mAnimNode[kAnimAttacker] PlaySection:@"right_idle"];
+		
+		mAnimNode[kAnimAttacked] = [SuperAnimNode create:anAnimFileFullPath id:kAnimAttacked listener:self];
+		[self addChild:mAnimNode[kAnimAttacked]];
+		mAnimNode[kAnimAttacked].position = ccp(size.width * 0.5f, size.height * 0.5f);
+		[mAnimNode[kAnimAttacked] PlaySection:@"left_idle"];
+		
+		CCLabelTTF* aTip = [CCLabelTTF labelWithString:@"Tap to add/remove time event" fontName:@"Arial" fontSize:24];
+		[self addChild:aTip];
+		aTip.position = ccp(size.width * 0.5f, size.height * 0.75f);
 		
 		[self registerWithTouchDispatcher];
 
@@ -83,25 +92,36 @@ const char* SPRITE_RENAME_SPRITESHEET_HAT_HEAD_NEW = "rename_sprite/rename-sprit
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-	static BOOL toReplaceSprite = NO;
+	static BOOL shouldAddTimeEvent = YES;
 	
-	toReplaceSprite = !toReplaceSprite;
-	if (toReplaceSprite) {
-		NSString* anOriginSpriteName = [NSString stringWithCString:SPRITE_RENAME_SPRITESHEET_HAT_HEAD_ORIGIN encoding:NSUTF8StringEncoding];
-		NSString* aNewSpriteName = [NSString stringWithCString:SPRITE_RENAME_SPRITESHEET_HAT_HEAD_NEW encoding:NSUTF8StringEncoding];
-		
-		[mAnimNode replaceSprite:anOriginSpriteName newSpriteName:aNewSpriteName];
-	}
-	
-	if (!toReplaceSprite) {
-		NSString* anOriginSpriteName = [NSString stringWithCString:SPRITE_RENAME_SPRITESHEET_HAT_HEAD_ORIGIN encoding:NSUTF8StringEncoding];
-		[mAnimNode resumeSprite:anOriginSpriteName];
+	if (shouldAddTimeEvent) {
+		shouldAddTimeEvent = NO;
+		[mAnimNode[kAnimAttacker] registerTimeEvent:@"right_doubleattack" timeFactor:0.9f timeEventId:0];
+		[mAnimNode[kAnimAttacker] PlaySection:@"right_doubleattack"];
+	} else if (!shouldAddTimeEvent){
+		[mAnimNode[kAnimAttacker] removeTimeEvent:@"right_doubleattack" timeEventId:0];
+		[mAnimNode[kAnimAttacker] PlaySection:@"right_idle"];
+		shouldAddTimeEvent = YES;
 	}
 }
 
 - (void) OnAnimSectionEnd:(int)theId label:(NSString *)theLabelName{
-	if ([theLabelName compare:@"attack"] == NSOrderedSame) {
-		[mAnimNode PlaySection:@"attack"];
+	if (theId == kAnimAttacker) {
+		[mAnimNode[kAnimAttacker] PlaySection:theLabelName];
+	}
+	
+	if (theId == kAnimAttacked) {
+		if ([theLabelName compare:@"left_die"] == NSOrderedSame) {
+			[mAnimNode[kAnimAttacked] PlaySection:@"left_idle"];
+		} else {
+			[mAnimNode[kAnimAttacked] PlaySection:theLabelName];
+		}
+	}
+}
+
+-(void) OnTimeEvent:(int) theId label:(NSString*)theLabelName eventId:(int) theEventId{
+	if (theId == kAnimAttacker && theEventId == 0) {
+		[mAnimNode[kAnimAttacked] PlaySection:@"left_die"];
 	}
 }
 @end

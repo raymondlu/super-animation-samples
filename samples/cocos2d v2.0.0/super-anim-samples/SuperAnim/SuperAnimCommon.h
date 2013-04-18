@@ -90,6 +90,7 @@ namespace SuperAnim{
 	struct SuperAnimHandler{
 		std::string mMainDefKey;
 		std::string mCurLabel;
+		int mFirstFrameNumOfCurLabel;
 		int mLastFrameNumOfCurLabel;
 		float mCurFrameNum;
 		float mAnimRate;
@@ -98,6 +99,7 @@ namespace SuperAnim{
 		bool mIsHandlerValid;
 		
 		SuperAnimHandler(){
+			mFirstFrameNumOfCurLabel = 0;
 			mLastFrameNumOfCurLabel = 0;
 			mCurFrameNum = 0.0f;
 			mAnimRate = 0.0f;

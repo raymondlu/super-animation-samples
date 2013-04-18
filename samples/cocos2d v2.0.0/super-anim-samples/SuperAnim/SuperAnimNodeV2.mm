@@ -28,9 +28,20 @@
 #import "SuperAnimCommon.h"
 //////////////////////////////////////////////////////////////////////////
 #include <map>
+#include <vector>
 using namespace SuperAnim;
 
 typedef std::map<SuperAnimSpriteId, SuperAnimSpriteId> SuperSpriteIdToSuperSpriteIdMap;
+
+// for time event
+struct TimeEventInfo{
+	std::string mLabelName;
+	float mTimeFactor;
+	int mEventId;
+};
+typedef std::vector<TimeEventInfo> TimeEventInfoArray;
+typedef std::map<std::string, TimeEventInfoArray> LabelNameToTimeEventInfoArrayMap;
+
 unsigned char* GetFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize){
 	FILE *aFile = fopen(pszFileName, pszMode);
 	if (aFile == NULL)
@@ -294,9 +305,7 @@ SuperAnimSpriteId SuperAnimSpriteMgr::LoadSuperAnimSprite(std::string theSpriteN
 	CGRect aTextureRect;
 	CCTexture2D *aTexture = getTexture(anImageFile.c_str(), aTextureRect);
 	if (aTexture == NULL) {
-		char aBuffer[256];
-		sprintf(aBuffer, "%s is missing.", anImageFileName.c_str());
-		CCLOG([NSString stringWithCString:aBuffer encoding:NSUTF8StringEncoding]);
+		assert(false && "Failed to get texture.");
 		return InvalidSuperAnimSpriteId;
 	}
 	
@@ -394,6 +403,19 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 		mReplacedSpriteMap = NULL;
 	}
 	
+	if (mLabelNameToTimeEventInfoArrayMap != NULL) {
+		LabelNameToTimeEventInfoArrayMap* aLabelNameToTimeEventInfoArrayMap = (LabelNameToTimeEventInfoArrayMap*)mLabelNameToTimeEventInfoArrayMap;
+		aLabelNameToTimeEventInfoArrayMap->clear();
+		delete aLabelNameToTimeEventInfoArrayMap;
+		mLabelNameToTimeEventInfoArrayMap = NULL;
+	}
+	if (mCurTimeEventInfoArray != NULL) {
+		TimeEventInfoArray* aTimeEventInfoArray = (TimeEventInfoArray*)mCurTimeEventInfoArray;
+		aTimeEventInfoArray->clear();
+		delete aTimeEventInfoArray;
+		mCurTimeEventInfoArray = NULL;
+	}
+	
 	[super dealloc];
 }
 
@@ -412,9 +434,7 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 		SuperAnimHandler aAnimHandler = GetSuperAnimHandler(aCString);
 		if (!aAnimHandler.IsValid())
 		{
-			char aBuffer[256];
-			sprintf(aBuffer, "Can't load the SuperAnim %s.", aCString.c_str());
-			CCLOG([NSString stringWithCString:aBuffer encoding:NSUTF8StringEncoding]);
+			NSAssert(false, @"Failed to load animation.");
 			return nil;
 		}
 		
@@ -423,6 +443,8 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 		mAnimHandler = aCopied;
 		
 		mReplacedSpriteMap = new SuperSpriteIdToSuperSpriteIdMap();
+		mLabelNameToTimeEventInfoArrayMap = new LabelNameToTimeEventInfoArrayMap();
+		mCurTimeEventInfoArray = new TimeEventInfoArray();
 		
 		self.contentSize = CC_SIZE_PIXELS_TO_POINTS(CGSizeMake(aAnimHandler.mWidth, aAnimHandler.mHeight));
 		
@@ -641,6 +663,30 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 	anAnimHandler.mAnimRate *= mSpeedFactor;
 	IncAnimFrameNum(anAnimHandler, time, isNewLabel);
 	anAnimHandler.mAnimRate = anOriginFrameRate;
+	
+	
+	float aTimeFactor = (anAnimHandler.mCurFrameNum - anAnimHandler.mFirstFrameNumOfCurLabel) / (float)(anAnimHandler.mLastFrameNumOfCurLabel - anAnimHandler.mFirstFrameNumOfCurLabel);
+	TimeEventInfoArray &aCurTimeEventInfoArray = *((TimeEventInfoArray*)mCurTimeEventInfoArray);
+	for (TimeEventInfoArray::iterator anIter = aCurTimeEventInfoArray.begin(); anIter != aCurTimeEventInfoArray.end(); anIter++) {
+		if (aTimeFactor >= anIter->mTimeFactor) {
+			NSString* aLableName = [NSString stringWithCString:anIter->mLabelName.c_str() encoding:NSUTF8StringEncoding];
+			// trigger time event
+			CCLOG(@"Trigger anim time event: %d, %@, %d", mId, aLableName, anIter->mEventId);
+			if (mListener) {
+				[mListener OnTimeEvent:mId label:aLableName eventId:anIter->mEventId];
+			}
+			break;
+		}
+	}
+	// delete obsolete time event
+	for (TimeEventInfoArray::iterator anIter = aCurTimeEventInfoArray.begin(); anIter != aCurTimeEventInfoArray.end();) {
+		if (aTimeFactor >= anIter->mTimeFactor) {
+			anIter = aCurTimeEventInfoArray.erase(anIter);
+		} else {
+			anIter++;
+		}
+	}
+	
 	if (isNewLabel && mListener)
 	{
 		[mListener OnAnimSectionEnd:mId
@@ -671,6 +717,17 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 	if (PlayBySection(anAnimHandler, aCString)){
 		mAnimState = kAnimStatePlaying;
 		//[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
+		
+		// set time event info for this run
+		std::string aLabelName = [theLabel cStringUsingEncoding:NSUTF8StringEncoding];
+		TimeEventInfoArray &aCurTimeEventInfoArray = *((TimeEventInfoArray*)mCurTimeEventInfoArray);
+		aCurTimeEventInfoArray.clear();
+		LabelNameToTimeEventInfoArrayMap &aLabelNameToTimeEventInfoArrayMap = *((LabelNameToTimeEventInfoArrayMap*)mLabelNameToTimeEventInfoArrayMap);
+		LabelNameToTimeEventInfoArrayMap::const_iterator anIter = aLabelNameToTimeEventInfoArrayMap.find(aLabelName);
+		if (anIter != aLabelNameToTimeEventInfoArrayMap.end()) {
+			aCurTimeEventInfoArray.insert(aCurTimeEventInfoArray.begin(), anIter->second.begin(), anIter->second.end());
+		}
+		
 		return YES;
 	}
 	
@@ -753,6 +810,51 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 			// unload the replaced sprite
 			SuperAnimSpriteMgr::GetInstance()->UnloadSuperSprite(anIter->second);
 			aReplacedSpriteMap->erase(anIter);
+		}
+	}
+}
+
+// for time event
+//void SuperAnimNode::registerTimeEvent(std::string theLabel, float theTimeFactor, int theEventId){
+-(void) registerTimeEvent:(NSString*)theLabelNS timeFactor:(float)theTimeFactor timeEventId:(int)theEventId{
+	std::string theLabel = [theLabelNS cStringUsingEncoding:NSUTF8StringEncoding];
+	if ([self HasSection:theLabelNS] == NO) {
+		NSAssert(NO, @"Label not existed.");
+		return;
+	}
+	
+	theTimeFactor = clampf(theTimeFactor, 0.0f, 1.0f);
+	TimeEventInfo aTimeEventInfo = {theLabel, theTimeFactor, theEventId};
+	LabelNameToTimeEventInfoArrayMap &aLabelNameToTimeEventInfoArrayMap = *((LabelNameToTimeEventInfoArrayMap*)mLabelNameToTimeEventInfoArrayMap);
+	TimeEventInfoArray &aTimeEventInfoArray = aLabelNameToTimeEventInfoArrayMap[theLabel];
+	aTimeEventInfoArray.push_back(aTimeEventInfo);
+}
+//void SuperAnimNode::removeTimeEvent(std::string theLabel, int theEventId){
+-(void) removeTimeEvent:(NSString*) theLabelNS timeEventId:(int) theEventId{
+	std::string theLabel = [theLabelNS cStringUsingEncoding:NSUTF8StringEncoding];
+	if ([self HasSection:theLabelNS] == NO) {
+		NSAssert(NO, @"Label not existed.");
+		return;
+	}
+	LabelNameToTimeEventInfoArrayMap &aLabelNameToTimeEventInfoArrayMap = *((LabelNameToTimeEventInfoArrayMap*)mLabelNameToTimeEventInfoArrayMap);
+	LabelNameToTimeEventInfoArrayMap::iterator anIter = aLabelNameToTimeEventInfoArrayMap.find(theLabel);
+	if (anIter != aLabelNameToTimeEventInfoArrayMap.end()) {
+		TimeEventInfoArray &aTimeEventInfoArray = anIter->second;
+		for (TimeEventInfoArray::iterator i = aTimeEventInfoArray.begin(); i != aTimeEventInfoArray.end(); i++) {
+			if (i->mEventId == theEventId) {
+				aTimeEventInfoArray.erase(i);
+				break;
+			}
+		}
+	}
+	
+	// also remove in the current time event info array
+	TimeEventInfoArray &aCurTimeEventInfoArray = *((TimeEventInfoArray*)mCurTimeEventInfoArray);
+	for (TimeEventInfoArray::iterator i = aCurTimeEventInfoArray.begin(); i != aCurTimeEventInfoArray.end(); i++) {
+		if (i->mLabelName == theLabel &&\
+			i->mEventId == theEventId) {
+			aCurTimeEventInfoArray.erase(i);
+			break;
 		}
 	}
 }

@@ -28,6 +28,7 @@
 @protocol SuperAnimNodeListener <NSObject>
 
 -(void) OnAnimSectionEnd: (int)theId label:(NSString*) theLabelName;
+-(void) OnTimeEvent:(int) theId label:(NSString*)theLabelName eventId:(int) theEventId;
 
 @end
 
@@ -37,6 +38,9 @@
 	id<SuperAnimNodeListener> mListener;
 	void *mAnimHandler;
 	void *mReplacedSpriteMap;
+	// for time event
+	void *mLabelNameToTimeEventInfoArrayMap;
+	void *mCurTimeEventInfoArray;
 	int mAnimState;
 	// support sprite sheet
 	NSString* mSpriteSheetFileFullPath;
@@ -65,6 +69,13 @@
 // for replaceable sprite
 -(void) replaceSprite:(NSString*) theOriginSpriteName newSpriteName:(NSString*) theNewSpriteName;
 -(void) resumeSprite:(NSString*) theOriginSpriteName;
+
+// for time event
+// theTimeFactor is in [0.0f, 1.0f],
+// theTimeFactor = 0.0f means the event will be triggered at the first frame,
+// theTimeFactor = 1.0f means the event will be triggered at the last frame
+-(void) registerTimeEvent:(NSString*)theLabel timeFactor:(float)theTimeFactor timeEventId:(int)theEventId;
+-(void) removeTimeEvent:(NSString*) theLabel timeEventId:(int) theEventId;
 
 // support sprite sheet
 -(void) tryLoadSpriteSheet;
