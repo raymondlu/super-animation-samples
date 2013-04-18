@@ -35,6 +35,7 @@ New Features
 * Support set flip x&y for animation
 * Support rename animation sprite name, please refer to the help doc
 * Support replace animation sprite at runtime, please refer to the sample code
+* Support time event, please refer to the sample code
 
 Contact Me
 ------------------
