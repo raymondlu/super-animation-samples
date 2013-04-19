@@ -80,26 +80,26 @@ namespace SuperAnim
 		void setFlipX(bool isFlip);
 		void setFlipY(bool isFlip);
 
-		bool PlaySection(std::string theLabel, bool isLoop = false);
+		bool PlaySection(const std::string &theLabel, bool isLoop = false);
 		void Pause();
 		void Resume();
 		bool IsPause();
 		bool IsPlaying();
 		int GetCurFrame();
 		std::string GetCurSectionName();
-		bool HasSection(std::string theLabelName);
+		bool HasSection(const std::string &theLabelName);
 		void setSpeedFactor(float theNewSpeedFactor);
 		
 		// for replaceable sprite
-		void replaceSprite(std::string theOriginSpriteName, std::string theNewSpriteName);
-		void resumeSprite(std::string theOriginSpriteName);
+		void replaceSprite(const std::string &theOriginSpriteName, const std::string &theNewSpriteName);
+		void resumeSprite(const std::string &theOriginSpriteName);
 		
 		// for time event
 		// theTimeFactor is in [0.0f, 1.0f],
 		// theTimeFactor = 0.0f means the event will be triggered at the first frame,
 		// theTimeFactor = 1.0f means the event will be triggered at the last frame
-		void registerTimeEvent(std::string theLabel, float theTimeFactor, int theEventId);
-		void removeTimeEvent(std::string theLabel, int theEventId);
+		void registerTimeEvent(const std::string &theLabel, float theTimeFactor, int theEventId);
+		void removeTimeEvent(const std::string &theLabel, int theEventId);
 	private:
 		// support sprite sheet
 		void tryLoadSpriteSheet();

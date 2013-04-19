@@ -660,7 +660,7 @@ void SuperAnimNode::update(float dt)
 	}
 }
 
-bool SuperAnimNode::HasSection(std::string theLabelName){
+bool SuperAnimNode::HasSection(const std::string &theLabelName){
 	return  SuperAnim::HasSection(mAnimHandler, theLabelName);
 }
 
@@ -668,7 +668,7 @@ void SuperAnimNode::setSpeedFactor(float theNewSpeedFactor){
 	mSpeedFactor = theNewSpeedFactor;
 }
 
-bool SuperAnimNode::PlaySection(std::string theLabel, bool isLoop)
+bool SuperAnimNode::PlaySection(const std::string &theLabel, bool isLoop)
 {
 	if (mAnimState == kAnimStateInvalid)
 	{
@@ -729,7 +729,7 @@ std::string SuperAnimNode::GetCurSectionName(){
 	return mAnimHandler.mCurLabel;
 }
 
-void SuperAnimNode::replaceSprite(std::string theOriginSpriteName, std::string theNewSpriteName){
+void SuperAnimNode::replaceSprite(const std::string &theOriginSpriteName, const std::string &theNewSpriteName){
 	SuperAnimSpriteId anOriginSpriteId = InvalidSuperAnimSpriteId;
 	SuperAnimSpriteId aCurSpriteId;
 	SuperAnimSpriteMgr::GetInstance()->BeginIterateSpriteId();
@@ -750,7 +750,7 @@ void SuperAnimNode::replaceSprite(std::string theOriginSpriteName, std::string t
 		CCAssert(false, "Original sprite should exist.");
 	}
 }
-void SuperAnimNode::resumeSprite(std::string theOriginSpriteName){
+void SuperAnimNode::resumeSprite(const std::string &theOriginSpriteName){
 	SuperAnimSpriteId anOriginSpriteId = InvalidSuperAnimSpriteId;
 	SuperAnimSpriteId aCurSpriteId;
 	SuperAnimSpriteMgr::GetInstance()->BeginIterateSpriteId();
@@ -773,7 +773,7 @@ void SuperAnimNode::resumeSprite(std::string theOriginSpriteName){
 }
 
 // for time event
-void SuperAnimNode::registerTimeEvent(std::string theLabel, float theTimeFactor, int theEventId){
+void SuperAnimNode::registerTimeEvent(const std::string &theLabel, float theTimeFactor, int theEventId){
 	if (HasSection(theLabel) == false) {
 		CCAssert(false, "Label not existed.");
 		return;
@@ -784,7 +784,7 @@ void SuperAnimNode::registerTimeEvent(std::string theLabel, float theTimeFactor,
 	TimeEventInfoArray &aTimeEventInfoArray = mLabelNameToTimeEventInfoArrayMap[theLabel];
 	aTimeEventInfoArray.push_back(aTimeEventInfo);
 }
-void SuperAnimNode::removeTimeEvent(std::string theLabel, int theEventId){
+void SuperAnimNode::removeTimeEvent(const std::string &theLabel, int theEventId){
 	if (HasSection(theLabel) == false) {
 		CCAssert(false, "Label not existed.");
 		return;
