@@ -45,6 +45,7 @@ namespace SuperAnim
 		int mId;
 		SuperAnimNodeListener *mListener;
 		SuperAnimHandler mAnimHandler;
+		bool mIsLoop;
 		int mAnimState;
 		// support sprite sheet
 		std::string mSpriteSheetFileFullPath;
@@ -79,7 +80,7 @@ namespace SuperAnim
 		void setFlipX(bool isFlip);
 		void setFlipY(bool isFlip);
 
-		bool PlaySection(std::string theLabel);
+		bool PlaySection(std::string theLabel, bool isLoop = false);
 		void Pause();
 		void Resume();
 		bool IsPause();

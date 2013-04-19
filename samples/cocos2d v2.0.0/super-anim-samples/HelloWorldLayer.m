@@ -63,12 +63,18 @@ const char* SAM_NO_FLICKER = "no-flicker/no-flicker.sam";
 		mAnimNode[kAnimAttacker] = [SuperAnimNode create:anAnimFileFullPath id:kAnimAttacker listener:self];
 		[self addChild:mAnimNode[kAnimAttacker]];
 		mAnimNode[kAnimAttacker].position = ccp(size.width * 0.25f, size.height * 0.5f);
-		[mAnimNode[kAnimAttacker] PlaySection:@"right_idle"];
+		[mAnimNode[kAnimAttacker] PlaySection:@"right_idle" isLoop:NO];
 		
 		mAnimNode[kAnimAttacked] = [SuperAnimNode create:anAnimFileFullPath id:kAnimAttacked listener:self];
 		[self addChild:mAnimNode[kAnimAttacked]];
 		mAnimNode[kAnimAttacked].position = ccp(size.width * 0.5f, size.height * 0.5f);
-		[mAnimNode[kAnimAttacked] PlaySection:@"left_idle"];
+		[mAnimNode[kAnimAttacked] PlaySection:@"left_idle" isLoop:NO];
+		
+		
+		mAnimNode[kAnimStandAlone] = [SuperAnimNode create:anAnimFileFullPath id:kAnimStandAlone listener:nil];
+		[self addChild:mAnimNode[kAnimStandAlone]];
+		mAnimNode[kAnimStandAlone].position = ccp(size.width * 0.5f, size.height * 0.25f);
+		[mAnimNode[kAnimStandAlone] PlaySection:@"left_idle" isLoop:YES];
 		
 		CCLabelTTF* aTip = [CCLabelTTF labelWithString:@"Tap to add/remove time event" fontName:@"Arial" fontSize:24];
 		[self addChild:aTip];
@@ -97,31 +103,31 @@ const char* SAM_NO_FLICKER = "no-flicker/no-flicker.sam";
 	if (shouldAddTimeEvent) {
 		shouldAddTimeEvent = NO;
 		[mAnimNode[kAnimAttacker] registerTimeEvent:@"right_doubleattack" timeFactor:0.9f timeEventId:0];
-		[mAnimNode[kAnimAttacker] PlaySection:@"right_doubleattack"];
+		[mAnimNode[kAnimAttacker] PlaySection:@"right_doubleattack" isLoop:NO];
 	} else if (!shouldAddTimeEvent){
 		[mAnimNode[kAnimAttacker] removeTimeEvent:@"right_doubleattack" timeEventId:0];
-		[mAnimNode[kAnimAttacker] PlaySection:@"right_idle"];
+		[mAnimNode[kAnimAttacker] PlaySection:@"right_idle" isLoop:NO];
 		shouldAddTimeEvent = YES;
 	}
 }
 
 - (void) OnAnimSectionEnd:(int)theId label:(NSString *)theLabelName{
 	if (theId == kAnimAttacker) {
-		[mAnimNode[kAnimAttacker] PlaySection:theLabelName];
+		[mAnimNode[kAnimAttacker] PlaySection:theLabelName isLoop:NO];
 	}
 	
 	if (theId == kAnimAttacked) {
 		if ([theLabelName compare:@"left_die"] == NSOrderedSame) {
-			[mAnimNode[kAnimAttacked] PlaySection:@"left_idle"];
+			[mAnimNode[kAnimAttacked] PlaySection:@"left_idle" isLoop:NO];
 		} else {
-			[mAnimNode[kAnimAttacked] PlaySection:theLabelName];
+			[mAnimNode[kAnimAttacked] PlaySection:theLabelName isLoop:NO];
 		}
 	}
 }
 
 -(void) OnTimeEvent:(int) theId label:(NSString*)theLabelName eventId:(int) theEventId{
 	if (theId == kAnimAttacker && theEventId == 0) {
-		[mAnimNode[kAnimAttacked] PlaySection:@"left_die"];
+		[mAnimNode[kAnimAttacked] PlaySection:@"left_die" isLoop:NO];
 	}
 }
 @end

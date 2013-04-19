@@ -40,29 +40,22 @@ public:
 	}
 };
 
-class AttackAnimLayer : public CCLayer, public SuperAnimNodeListener {
+class AttackAnimLayer : public CCLayer{
 	SuperAnimNode* mAnimNode;
 public:
 	AttackAnimLayer(){
 		CCSize aScreenSize = CCDirector::sharedDirector()->getWinSize();
 		std::string anAnimFileFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(SAM_ATTACK_FRONT);
-		mAnimNode = SuperAnimNode::create(anAnimFileFullPath, 0, this);
+		mAnimNode = SuperAnimNode::create(anAnimFileFullPath, 0, NULL);
 		addChild(mAnimNode);
 		mAnimNode->setPosition(ccp(aScreenSize.width * 0.5f, aScreenSize.height * 0.5f));
-		mAnimNode->PlaySection("attack");
+		mAnimNode->PlaySection("attack", true);
 	}
 	
 	static AttackAnimLayer* create(){
 		AttackAnimLayer* aLayer = new AttackAnimLayer();
 		aLayer->autorelease();
 		return aLayer;
-	}
-	
-	void OnAnimSectionEnd(int theId, std::string theLabelName){
-		// loop the animation
-		if (theLabelName == "attack") {
-			mAnimNode->PlaySection("attack");
-		}
 	}
 };
 

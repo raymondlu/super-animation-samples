@@ -402,6 +402,7 @@ bool SuperAnimNode::Init(std::string theAbsAnimFile, int theId, SuperAnimNodeLis
 	mAnimState = kAnimStateInitialized;
 	mIsFlipX = mIsFlipY = false;
 	mSpeedFactor = 1.0f;
+	mIsLoop = false;
 
 	// shader program
 	setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
@@ -649,6 +650,10 @@ void SuperAnimNode::update(float dt)
 		}
 	}
 	
+	if (isNewLabel && mIsLoop) {
+		PlaySection(mAnimHandler.mCurLabel, mIsLoop);
+	}
+	
 	if (isNewLabel && mListener)
 	{
 		mListener->OnAnimSectionEnd(mId, mAnimHandler.mCurLabel);
@@ -663,7 +668,7 @@ void SuperAnimNode::setSpeedFactor(float theNewSpeedFactor){
 	mSpeedFactor = theNewSpeedFactor;
 }
 
-bool SuperAnimNode::PlaySection(std::string theLabel)
+bool SuperAnimNode::PlaySection(std::string theLabel, bool isLoop)
 {
 	if (mAnimState == kAnimStateInvalid)
 	{
@@ -680,6 +685,7 @@ bool SuperAnimNode::PlaySection(std::string theLabel)
 	if (PlayBySection(mAnimHandler, theLabel)){
 		mAnimState = kAnimStatePlaying;
 		//CCDirector::sharedDirector()->setNextDeltaTimeZero(true);
+		mIsLoop = isLoop;
 		
 		// set time event info for this run
 		mCurTimeEventInfoArray.clear();

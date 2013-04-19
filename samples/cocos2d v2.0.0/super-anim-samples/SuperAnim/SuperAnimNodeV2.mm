@@ -453,6 +453,7 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 		mAnimState = kAnimStateInitialized;
 		mIsFlipX = mIsFlipY = false;
 		mSpeedFactor = 1.0f;
+		mIsLoop = NO;
 		
 		// shader program
 		self.shaderProgram = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
@@ -687,6 +688,11 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 		}
 	}
 	
+	if (isNewLabel && mIsLoop) {
+		[self PlaySection: [NSString stringWithCString:anAnimHandler.mCurLabel.c_str() encoding:NSUTF8StringEncoding]\
+				   isLoop:mIsLoop];
+	}
+	
 	if (isNewLabel && mListener)
 	{
 		[mListener OnAnimSectionEnd:mId
@@ -699,7 +705,7 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 	return (SuperAnim::HasSection(anAnimHandler, [theLabelName cStringUsingEncoding:NSUTF8StringEncoding])) == true;
 }
 
--(BOOL) PlaySection:(NSString *)theLabel{
+-(BOOL) PlaySection:(NSString*)	theLabel isLoop:(BOOL) isLoop{
 	if (mAnimState == kAnimStateInvalid)
 	{
 		assert(false&&"The animation isn't ready.");
@@ -717,6 +723,7 @@ inline ccV3F_C4B_T2F_Quad operator*(const SuperAnimMatrix3 &theMatrix3, const cc
 	if (PlayBySection(anAnimHandler, aCString)){
 		mAnimState = kAnimStatePlaying;
 		//[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
+		mIsLoop = isLoop;
 		
 		// set time event info for this run
 		std::string aLabelName = [theLabel cStringUsingEncoding:NSUTF8StringEncoding];

@@ -16,6 +16,8 @@
 		kAnimAttacker = 0,
 		kAnimAttacked,
 		
+		kAnimStandAlone,
+		
 		// keep last
 		kAnimIdCnt
 	};

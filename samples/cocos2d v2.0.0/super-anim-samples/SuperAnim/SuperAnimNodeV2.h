@@ -38,6 +38,7 @@
 	id<SuperAnimNodeListener> mListener;
 	void *mAnimHandler;
 	void *mReplacedSpriteMap;
+	BOOL mIsLoop;
 	// for time event
 	void *mLabelNameToTimeEventInfoArrayMap;
 	void *mCurTimeEventInfoArray;
@@ -58,7 +59,7 @@
 -(id) initWithAnimFile:(NSString*) theAbsAnimFile id:(int) theId listener:(id<SuperAnimNodeListener>) theListener;
 -(void)dealloc;
 -(void) update: (ccTime) time;
--(BOOL) PlaySection:(NSString*)	theLabel;
+-(BOOL) PlaySection:(NSString*)	theLabel isLoop:(BOOL) isLoop;
 -(void) Pause;
 -(void) Resume;
 -(BOOL) IsPause;
