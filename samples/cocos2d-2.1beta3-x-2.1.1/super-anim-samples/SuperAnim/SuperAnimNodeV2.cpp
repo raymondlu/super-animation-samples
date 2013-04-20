@@ -725,6 +725,10 @@ int SuperAnimNode::GetCurFrame(){
 	return (int)mAnimHandler.mCurFrameNum;
 }
 
+int SuperAnimNode::GetId(){
+	return mId;
+}
+
 std::string SuperAnimNode::GetCurSectionName(){
 	return mAnimHandler.mCurLabel;
 }

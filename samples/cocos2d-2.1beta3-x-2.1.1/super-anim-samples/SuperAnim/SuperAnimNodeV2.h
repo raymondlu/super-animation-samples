@@ -86,6 +86,7 @@ namespace SuperAnim
 		bool IsPause();
 		bool IsPlaying();
 		int GetCurFrame();
+		int GetId();
 		std::string GetCurSectionName();
 		bool HasSection(const std::string &theLabelName);
 		void setSpeedFactor(float theNewSpeedFactor);
