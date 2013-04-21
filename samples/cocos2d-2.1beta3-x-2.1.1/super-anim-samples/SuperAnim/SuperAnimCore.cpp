@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 #include "SuperAnimCommon.h"
 
 #define SAM_VERSION 1
