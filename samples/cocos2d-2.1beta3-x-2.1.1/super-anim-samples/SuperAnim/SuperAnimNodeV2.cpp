@@ -814,7 +814,7 @@ void SuperAnimNode::removeTimeEvent(const std::string &theLabel, int theEventId)
 	}
 }
 
-bool SuperAnim::LoadAnimFileExt(std::string theAbsAnimFile){
+bool SuperAnim::LoadAnimFileExt(const std::string &theAbsAnimFile){
 	// try to load the sprite sheet file
 	std::string aSpriteSheetFileFullPath = theAbsAnimFile.substr(0, theAbsAnimFile.find_last_of('.') + 1) + "plist";
 	if (hasFile(aSpriteSheetFileFullPath)) {
@@ -823,7 +823,7 @@ bool SuperAnim::LoadAnimFileExt(std::string theAbsAnimFile){
 	return LoadAnimFile(theAbsAnimFile);
 }
 
-void SuperAnim::UnloadAnimFileExt(std::string theAbsAnimFile){
+void SuperAnim::UnloadAnimFileExt(const std::string &theAbsAnimFile){
 	// try to unload the sprite sheet file
 	std::string aSpriteSheetFileFullPath = theAbsAnimFile.substr(0, theAbsAnimFile.find_last_of('.') + 1) + "plist";
 	if (hasFile(aSpriteSheetFileFullPath)) {
