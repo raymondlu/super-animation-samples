@@ -36,6 +36,7 @@ New Features
 * Support rename animation sprite name, please refer to the help doc
 * Support replace animation sprite at runtime, please refer to the sample code
 * Support time event, please refer to the sample code
+* Super Animation Converter for HTML5 is available!!!
 
 Contact Me
 ------------------
@@ -44,3 +45,4 @@ Contact Me
    
 [1]: http://www.cocos2d-x.org/boards/6/topics/19621 "http://www.cocos2d-x.org/boards/6/topics/19621"
 [2]: http://raymondlu1983.blog.com/super-animation-converter/ "http://raymondlu1983.blog.com/super-animation-converter/"
+[3]: Super Animation Converter for HTML5 "http://na-s.jp/SuperAnimHTML5/"
