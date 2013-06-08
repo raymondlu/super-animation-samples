@@ -46,7 +46,7 @@ Contact Me
 [1]: http://www.cocos2d-x.org/boards/6/topics/19621 "http://www.cocos2d-x.org/boards/6/topics/19621"
 [2]: http://raymondlu1983.blog.com/super-animation-converter/ "http://raymondlu1983.blog.com/super-animation-converter/"
 
-HTML5 version
+HTML5 Version
 ------------------
    * Website: [http://na-s.jp/SuperAnimHTML5/][3]
 
