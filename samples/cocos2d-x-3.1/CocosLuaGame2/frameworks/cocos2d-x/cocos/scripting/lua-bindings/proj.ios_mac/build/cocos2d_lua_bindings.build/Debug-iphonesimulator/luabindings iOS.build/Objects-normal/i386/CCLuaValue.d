@@ -1,0 +1,28 @@
+dependencies: \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/manual/CCLuaValue.cpp \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/manual/CCLuaValue.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../../external/lua/luajit/include/lua.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../../external/lua/luajit/include/luaconf.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../base/ccTypes.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/CCGeometry.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../base/CCPlatformMacros.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../base/ccConfig.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../base/CCPlatformConfig.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../platform/ios/CCPlatformDefine.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../base/ccMacros.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../base/CCConsole.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../platform/ios/CCStdC.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/CCMath.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/Vec2.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/CCMathBase.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/Vec2.inl \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/Vec3.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/Vec3.inl \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/Mat4.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/Vec4.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/Vec4.inl \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/Mat4.inl \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/Quaternion.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../math/Quaternion.inl \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../platform/ios/CCGL.h \
+  /Users/raymond-lu/local_src/privateprojects/cocos2d3.1/CocosLuaGame2/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.ios_mac/../../../base/CCRef.h

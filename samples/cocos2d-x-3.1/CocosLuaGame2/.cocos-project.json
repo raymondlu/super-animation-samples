@@ -1,0 +1,8 @@
+{
+  "has_native": true,
+  "project_type": "lua",
+  "ide_version": "v1.0.2.beta",
+  "assets": {
+    "ignores": []
+  }
+}

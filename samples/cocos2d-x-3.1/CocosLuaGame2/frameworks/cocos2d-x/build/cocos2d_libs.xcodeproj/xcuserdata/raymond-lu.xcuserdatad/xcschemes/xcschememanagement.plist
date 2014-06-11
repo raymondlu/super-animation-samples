@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>CocosDenshion Mac.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>9</integer>
+		</dict>
+		<key>CocosDenshion iOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>15</integer>
+		</dict>
+		<key>box2d Mac.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
+		<key>box2d iOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
+		<key>build all libs Mac.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>build all libs iOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
+		</dict>
+		<key>chipmunk Mac.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
+		<key>chipmunk iOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
+		</dict>
+		<key>cocos2dx Mac.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>cocos2dx iOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
+		<key>cocos2dx-extensions Mac.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
+		<key>cocos2dx-extensions iOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>1551A33E158F2AB200E66CFE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A03F2B781780BD04006731B9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A03F2D5D1780BDF7006731B9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A03F2E8E178141C1006731B9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A03F2E9817814268006731B9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A03F2FC117814595006731B9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A07A4C241783777C0073F6A7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A07A4E0B178386390073F6A7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A07A4E111783867C0073F6A7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A07A4EFD178387670073F6A7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A07A4F3C1783876B0073F6A7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A07A4F9F178387730073F6A7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
