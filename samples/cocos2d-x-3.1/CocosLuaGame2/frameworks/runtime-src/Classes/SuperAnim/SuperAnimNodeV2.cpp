@@ -573,7 +573,12 @@ void SuperAnimNode::onDraw(const Mat4 &transform, bool transformUpdated)
 			getGLProgram()->use();
 			getGLProgram()->setUniformsForBuiltins(transform);
 			
-			GL::blendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+			//GL::blendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+			if (!aSprite->mTexture->hasPremultipliedAlpha()) {
+				GL::blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			} else {
+				GL::blendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+			}
 			GL::bindTexture2D(aSprite->mTexture->getName());
 			//
 			// Attributes
@@ -634,7 +639,12 @@ void SuperAnimNode::onDraw(const Mat4 &transform, bool transformUpdated)
 		getGLProgram()->use();
 		getGLProgram()->setUniformsForBuiltins(transform);
 		
-		GL::blendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		//GL::blendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		if (!mSpriteSheet->hasPremultipliedAlpha()) {
+			GL::blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		} else {
+			GL::blendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		}
 		GL::bindTexture2D(mSpriteSheet->getName());
 		//
 		// Attributes
