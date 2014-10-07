@@ -47,12 +47,12 @@ namespace SuperAnim {
 		std::string mStringId;
 	public:
 		SuperAnimSprite();
-		SuperAnimSprite(Texture2D *theTexture);
-		SuperAnimSprite(Texture2D *theTexture, Rect theTextureRect);
-		~SuperAnimSprite();
-		
-		void SetTexture(Texture2D *theTexture);
-		void SetTexture(Texture2D *theTexture, Rect theTextureRect);
+        SuperAnimSprite(Texture2D *theTexture, bool isRotated);
+        SuperAnimSprite(Texture2D *theTexture, Rect theTextureRect, bool isRotated);
+        ~SuperAnimSprite();
+        
+        void SetTexture(Texture2D *theTexture, bool isRotated);
+        void SetTexture(Texture2D *theTexture, Rect theTextureRect, bool isRotated);
 	};
 
 	typedef std::map<SuperAnimSpriteId, SuperAnimSprite *> IdToSuperAnimSpriteMap;
@@ -83,18 +83,18 @@ SuperAnimSprite::SuperAnimSprite()
 	memset(&mQuad, 0, sizeof(mQuad));
 }
 
-SuperAnimSprite::SuperAnimSprite(Texture2D *theTexture)
+SuperAnimSprite::SuperAnimSprite(Texture2D *theTexture, bool isRotated)
 {
 	mTexture = NULL;
 	memset(&mQuad, 0, sizeof(mQuad));
-	SetTexture(theTexture);
+	SetTexture(theTexture, isRotated);
 }
 
-SuperAnimSprite::SuperAnimSprite(Texture2D *theTexture, Rect theTextureRect)
+SuperAnimSprite::SuperAnimSprite(Texture2D *theTexture, Rect theTextureRect, bool isRotated)
 {
 	mTexture = NULL;
 	memset(&mQuad, 0, sizeof(mQuad));
-	SetTexture(theTexture, theTextureRect);
+	SetTexture(theTexture, theTextureRect, isRotated);
 }
 
 SuperAnimSprite::~SuperAnimSprite()
@@ -106,14 +106,14 @@ SuperAnimSprite::~SuperAnimSprite()
 	}
 }
 
-void SuperAnimSprite::SetTexture(Texture2D *theTexture)
+void SuperAnimSprite::SetTexture(Texture2D *theTexture, bool isRotated)
 {
 	Rect aRect = Rect::ZERO;
 	aRect.size = theTexture->getContentSize();
-	SetTexture(theTexture, aRect);
+	SetTexture(theTexture, aRect, isRotated);
 }
 
-void SuperAnimSprite::SetTexture(Texture2D *theTexture, Rect theTextureRect)
+void SuperAnimSprite::SetTexture(Texture2D *theTexture, Rect theTextureRect,  bool isRotated)
 {
 	if (theTexture == NULL)
 	{
@@ -136,19 +136,39 @@ void SuperAnimSprite::SetTexture(Texture2D *theTexture, Rect theTextureRect)
 	float aTextureHeight = (float)mTexture->getPixelsHigh();
 	
 	float aLeft, aRight, aTop, aBottom;
-	aLeft = theTexturePixelRect.origin.x / aTextureWidth;
-	aRight = (theTexturePixelRect.origin.x + theTexturePixelRect.size.width) / aTextureWidth;
-	aTop = theTexturePixelRect.origin.y / aTextureHeight;
-	aBottom = (theTexturePixelRect.origin.y + theTexturePixelRect.size.height) / aTextureHeight;
-	
-	mQuad.bl.texCoords.u = aLeft;
-	mQuad.bl.texCoords.v = aBottom;
-	mQuad.br.texCoords.u = aRight;
-	mQuad.br.texCoords.v = aBottom;
-	mQuad.tl.texCoords.u = aLeft;
-	mQuad.tl.texCoords.v = aTop;
-	mQuad.tr.texCoords.u = aRight;
-	mQuad.tr.texCoords.v = aTop;
+    
+    if (isRotated) {
+        
+        aLeft = theTexturePixelRect.origin.x / aTextureWidth;
+        aRight = (theTexturePixelRect.origin.x + theTexturePixelRect.size.height) / aTextureWidth;
+        aTop = theTexturePixelRect.origin.y / aTextureHeight;
+        aBottom = (theTexturePixelRect.origin.y + theTexturePixelRect.size.width) / aTextureHeight;
+        
+        mQuad.bl.texCoords.u = aLeft;
+        mQuad.bl.texCoords.v = aTop;
+        mQuad.br.texCoords.u = aLeft;
+        mQuad.br.texCoords.v = aBottom;
+        mQuad.tl.texCoords.u = aRight;
+        mQuad.tl.texCoords.v = aTop;
+        mQuad.tr.texCoords.u = aRight;
+        mQuad.tr.texCoords.v = aBottom;
+        
+    }else {
+        aLeft = theTexturePixelRect.origin.x / aTextureWidth;
+        aRight = (theTexturePixelRect.origin.x + theTexturePixelRect.size.width) / aTextureWidth;
+        aTop = theTexturePixelRect.origin.y / aTextureHeight;
+        aBottom = (theTexturePixelRect.origin.y + theTexturePixelRect.size.height) / aTextureHeight;
+        
+        mQuad.bl.texCoords.u = aLeft;
+        mQuad.bl.texCoords.v = aBottom;
+        mQuad.br.texCoords.u = aRight;
+        mQuad.br.texCoords.v = aBottom;
+        mQuad.tl.texCoords.u = aLeft;
+        mQuad.tl.texCoords.v = aTop;
+        mQuad.tr.texCoords.u = aRight;
+        mQuad.tr.texCoords.v = aTop;
+    }
+    
 	
 	// Set position
 	//float x1 = 0;
@@ -232,7 +252,7 @@ bool SuperAnimSpriteMgr::IterateSpriteId(SuperAnimSpriteId &theCurSpriteId){
 	return true;
 }
 
-Texture2D* getTexture(std::string theImageFullPath, Rect& theTextureRect){
+Texture2D* getTexture(std::string theImageFullPath, Rect& theTextureRect,bool &isRotated){
 	// try to load from sprite sheet
 	std::string anImageFileName;
 	int aLastSlashIndex = MAX((int)theImageFullPath.find_last_of('/'), (int)theImageFullPath.find_last_of('\\'));
@@ -245,6 +265,7 @@ Texture2D* getTexture(std::string theImageFullPath, Rect& theTextureRect){
 	SpriteFrame* aSpriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(anImageFileName);
 	if (aSpriteFrame) {
 		theTextureRect = aSpriteFrame->getRect();
+        isRotated = aSpriteFrame->isRotated();
 		return aSpriteFrame->getTexture();
 	}
 	
@@ -287,7 +308,8 @@ SuperAnimSpriteId SuperAnimSpriteMgr::LoadSuperAnimSprite(std::string theSpriteN
 	}
 	// load the physical sprite
 	Rect aTextureRect;
-	Texture2D *aTexture = getTexture(anImageFile.c_str(), aTextureRect);
+    bool isRotated;
+	Texture2D *aTexture = getTexture(anImageFile.c_str(), aTextureRect,isRotated);
 	if (aTexture == NULL) {
 		char aBuffer[256];
 		sprintf(aBuffer, "%s is missing.", anImageFileName.c_str());
@@ -296,7 +318,7 @@ SuperAnimSpriteId SuperAnimSpriteMgr::LoadSuperAnimSprite(std::string theSpriteN
 	}
 	
 	// create new super animation sprite
-	SuperAnimSprite *aSuperAnimSprite = new SuperAnimSprite(aTexture, aTextureRect);
+	SuperAnimSprite *aSuperAnimSprite = new SuperAnimSprite(aTexture, aTextureRect, isRotated);
 	// use the sprite name as the key
 	aSuperAnimSprite->mStringId = theSpriteName;
 	SuperAnimSpriteId anId = aSuperAnimSprite;
