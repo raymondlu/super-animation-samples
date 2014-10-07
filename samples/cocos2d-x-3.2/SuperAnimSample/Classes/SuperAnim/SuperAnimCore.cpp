@@ -496,10 +496,13 @@ namespace SuperAnim {
 	
 	long BufferReader::ReadLong() const
 	{
-		long aLong = ReadByte();
-		aLong |= ((long) ReadByte()) << 8;
-		aLong |= ((long) ReadByte()) << 16;
-		aLong |= ((long) ReadByte()) << 24;
+		// bug fix:
+		// I assume that converter only support 32bit.
+		typedef int32_t LONG;
+		LONG aLong = ReadByte();
+		aLong |= ((LONG) ReadByte()) << 8;
+		aLong |= ((LONG) ReadByte()) << 16;
+		aLong |= ((LONG) ReadByte()) << 24;
 		
 		return aLong;
 	}
