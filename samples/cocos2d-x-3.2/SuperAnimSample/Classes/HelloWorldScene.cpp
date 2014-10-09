@@ -89,7 +89,7 @@ bool HelloWorld::init()
     this->addChild(animNode2);
 	animNode2->setTag(kAnimTagNoSpriteSheet);
 	animNode2->setPosition(Vec2(visibleSize.width * 0.5f + origin.x + 150.0f, visibleSize.height * 0.5f + origin.y));
-	animNode2->PlaySection("idle");
+	animNode2->PlaySection("active");
 	animNode2->setFlipX(true);
 	
     return true;

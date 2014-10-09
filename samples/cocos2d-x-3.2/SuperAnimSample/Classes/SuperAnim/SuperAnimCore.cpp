@@ -552,11 +552,16 @@ namespace SuperAnim {
 		
 	typedef std::map<int, SuperAnimObject> IntToSuperAnimObjectMap;
 	bool SuperAnimLabelLess(const SuperAnimLabel& a, const SuperAnimLabel& b){
-		if (a.mStartFrameNum != b.mStartFrameNum) {
-			return a.mStartFrameNum < b.mStartFrameNum;
-		}
+		// bug fix:
+		// what was on my mind when I implemented this function???
+		// a little confused...
 		
-		return true;
+		//		if (a.mStartFrameNum != b.mStartFrameNum) {
+		//			return a.mStartFrameNum < b.mStartFrameNum;
+		//		}
+		//
+		//		return true;
+		return a.mStartFrameNum < b.mStartFrameNum;
 	}
 	bool SuperAnimDefMgr::LoadSuperAnimMainDef(const std::string &theSuperAnimFile)
 	{
