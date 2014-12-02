@@ -252,7 +252,7 @@ bool SuperAnimSpriteMgr::IterateSpriteId(SuperAnimSpriteId &theCurSpriteId){
 	return true;
 }
 
-Texture2D* getTexture(std::string theImageFullPath, Rect& theTextureRect,bool &isRotated){
+Texture2D* getTexture(std::string theImageFullPath, Rect& theTextureRect,bool *isRotated){
 	// try to load from sprite sheet
 	std::string anImageFileName;
 	int aLastSlashIndex = MAX((int)theImageFullPath.find_last_of('/'), (int)theImageFullPath.find_last_of('\\'));
@@ -265,7 +265,7 @@ Texture2D* getTexture(std::string theImageFullPath, Rect& theTextureRect,bool &i
 	SpriteFrame* aSpriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(anImageFileName);
 	if (aSpriteFrame) {
 		theTextureRect = aSpriteFrame->getRect();
-        isRotated = aSpriteFrame->isRotated();
+        *isRotated = aSpriteFrame->isRotated();
 		return aSpriteFrame->getTexture();
 	}
 	
@@ -273,6 +273,7 @@ Texture2D* getTexture(std::string theImageFullPath, Rect& theTextureRect,bool &i
 	Texture2D* aTexture = Director::getInstance()->getTextureCache()->addImage(theImageFullPath);
 	theTextureRect.origin = Vec2::ZERO;
 	theTextureRect.size = aTexture->getContentSize();
+    *isRotated = false;
 	return aTexture;
 }
 
@@ -308,8 +309,8 @@ SuperAnimSpriteId SuperAnimSpriteMgr::LoadSuperAnimSprite(std::string theSpriteN
 	}
 	// load the physical sprite
 	Rect aTextureRect;
-    bool isRotated;
-	Texture2D *aTexture = getTexture(anImageFile.c_str(), aTextureRect,isRotated);
+    bool isRotated = false;
+	Texture2D *aTexture = getTexture(anImageFile.c_str(), aTextureRect,&isRotated);
 	if (aTexture == NULL) {
 		char aBuffer[256];
 		sprintf(aBuffer, "%s is missing.", anImageFileName.c_str());
