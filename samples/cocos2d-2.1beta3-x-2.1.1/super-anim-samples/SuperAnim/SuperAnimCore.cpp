@@ -410,7 +410,7 @@ namespace SuperAnim {
 		uchar					ReadByte() const;
 		bool					ReadBoolean() const;
 		short					ReadShort() const;
-		long					ReadLong() const;
+		int                     ReadLong() const;
 		std::string				ReadString() const;	
 	};
 	
@@ -494,12 +494,12 @@ namespace SuperAnim {
 		return aShort;	
 	}
 	
-	long BufferReader::ReadLong() const
+	int BufferReader::ReadLong() const
 	{
-		long aLong = ReadByte();
-		aLong |= ((long) ReadByte()) << 8;
-		aLong |= ((long) ReadByte()) << 16;
-		aLong |= ((long) ReadByte()) << 24;
+		int aLong = ReadByte();
+		aLong |= ((int) ReadByte()) << 8;
+		aLong |= ((int) ReadByte()) << 16;
+		aLong |= ((int) ReadByte()) << 24;
 		
 		return aLong;
 	}
